@@ -1,0 +1,1 @@
+/usr/bin/clang++  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.3.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/home_server_traffic_dashboard_tests.dir/logger-tests.cpp.o -o home_server_traffic_dashboard_tests  ../lib/libgtest_main.a ../logger/liblogger.a ../lib/libgtest.a 
