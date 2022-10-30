@@ -1,9 +1,11 @@
 #include "concurrent-hashmap.hpp"
 #include <string>
+#include <vector>
+#include <cstddef>
 
 void ConcurMap::ConcurrentHashmap::Set(std::string& key, std::vector<std::byte> val) {
   std::unique_lock<std::mutex> lock(mu);
-  map.at(key) = val;
+  map.insert({key, val});
 }
 
 std::vector<std::byte> ConcurMap::ConcurrentHashmap::Get(std::string& key) {

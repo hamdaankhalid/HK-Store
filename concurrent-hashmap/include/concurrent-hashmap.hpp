@@ -4,6 +4,8 @@
 #include <string>
 #include <mutex>
 #include<vector>
+#include <cstddef>
+
 
 namespace ConcurMap {
   class ConcurrentHashmap {
@@ -16,5 +18,6 @@ namespace ConcurMap {
     std::unordered_map<std::string, std::vector<std::byte>> map;
     std::mutex mu;
   };
-}
+};
+
 

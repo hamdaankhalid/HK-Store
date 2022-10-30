@@ -4,6 +4,7 @@
 #include <string>
 
 TEST(Logger, LogInfo) {
+
   std::ostringstream oss;
   
   CustomLogger::Logger& logger = CustomLogger::Logger::GetInstance(oss);

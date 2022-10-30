@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.21)
 
 set(SOURCES
   logger-tests.cpp
-  concurrent-hashmap-tests.cpp
+  hashmap-tests.cpp
 )
 
 add_executable(hk_storage_engine_tests ${SOURCES})
