@@ -29,4 +29,3 @@
 - Concurrent hashmap: Threadsafe hashmap
 - Persistence: takes contents from a map and serializes to disk
 - Logger: logging library
-
