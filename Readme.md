@@ -26,7 +26,7 @@
 
 ## Libraries
 - DB this is the main library that is used in src/main.
-- Concurrent hashmap: DB runs a tcp server that uses this lib.
+- Concurrent hashmap: Threadsafe hashmap
 - Persistence: takes contents from a map and serializes to disk
 - Logger: logging library
 
