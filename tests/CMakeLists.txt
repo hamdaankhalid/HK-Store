@@ -2,14 +2,16 @@ cmake_minimum_required(VERSION 3.21)
 
 set(SOURCES
   logger-tests.cpp
+  concurrent-hashmap-tests.cpp
 )
 
-add_executable(home_server_traffic_dashboard_tests ${SOURCES})
+add_executable(hk_storage_engine_tests ${SOURCES})
 
 target_link_libraries(
-  home_server_traffic_dashboard_tests PUBLIC
+  hk_storage_engine_tests PUBLIC
   gtest_main
   logger
+  concurrent_hashmap
 )
 
-add_test(NAME home_server_traffic_dashboard_tests COMMAND home_server_traffic_dashboard_tests)
+add_test(NAME hk_storage_engine_tests COMMAND hk_storage_engine_tests)

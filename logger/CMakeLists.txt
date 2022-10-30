@@ -1,4 +1,4 @@
-set (HEADER_LIST "${HomeServerTrafficDashboard_SOURCE_DIR}/logger/include/logger.hpp")
+set (HEADER_LIST "${HkStorageEngine_SOURCE_DIR}/logger/include/logger.hpp")
 
 add_library(logger STATIC src/logger.cpp ${HEADER_LIST})
 

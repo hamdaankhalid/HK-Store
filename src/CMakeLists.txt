@@ -7,7 +7,7 @@ set(SOURCES
 add_executable(home_server_traffic_dashboard_tests ${SOURCES})
 
 target_link_libraries(
-  home_server_traffic_dashboard PUBLIC
+  home_server_traffic_dashboard PRIVATE_HEADER
   filepoller
   logger
 )

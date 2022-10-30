@@ -1,16 +1,32 @@
-## File-Polling Based NGINX Traffic Dashboard For Observability
-  
-  I recently deployed an app behind NGINX, when needing to debug or check traffic I had to rely heavily on viewing the log files which were verbose and offered hard to infer data.
+# A DB for my apps
+- An in-memory hashmap with asynchronous persistence on disk.
 
-  The data is of time series nature and a log summarizer, and traffic dashboard will come in hand for me to increase my server's observability.
+## Overview
+- Tcp based communication layer request response for set, get, delete.
+- Persistence on separate thread that does not block req-resp  loop.
 
-#### Program Objective
-  Code will be compiled to a single binary that will take log and error log files as input, upon kicking it off it will start a dashboard in the terminal that will give me insight from the log files, with a refresh of every 5 seconds to give me view of updated results.
-  
-  Dashboard will include metrics such as website hits, traffic per unit, number of total error logs.
+## Operations
+### Set
+1. communication layer reads (string key, char[] serialized val)
+2. forwards request to a thread from thread pool to handle.
+3. handler then updates in memory hashmap, and returns true on success.
+4. write response into buffer.
 
-#### Software Architecture
-  - Driver code
-  - PolledFile: Handles file polling, and log aggregation.
-  - 
+### Get
+1. communication layer reads (string key)
+2. forwards request to a thread from thread pool to handle.
+3. handler then finds by key and returns
+4. write response into buffer.
   
+### Delete
+1. communication layer reads (string key)
+2. forwards request to a thread from thread pool to handle.
+3. handler then deletes key and returns
+4. write response into buffer.
+
+## Libraries
+- DB this is the main library that is used in src/main.
+- Concurrent hashmap: DB runs a tcp server that uses this lib.
+- Persistence: takes contents from a map and serializes to disk
+- Logger: logging library
+
