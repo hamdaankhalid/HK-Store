@@ -1,0 +1,13 @@
+set (HEADER_LIST "${HkStorageEngine_SOURCE_DIR}/db-server/include/db-server.hpp")
+
+add_library(db STATIC src/db-server.cpp ${HEADER_LIST})
+
+target_include_directories(db_server PUBLIC ./include)
+
+target_compile_features(db_server PUBLIC cxx_std_17)
+
+source_group(
+  TREE "${PROJECT_SOURCE_DIR}/db-server/include"
+  PREFIX "Header Files"
+  FILES ${HEADER_LIST}
+)
