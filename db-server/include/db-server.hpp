@@ -2,7 +2,7 @@
 
 namespace DbServer {
   class Db {
-    void Start();
+    int Start();
     void Listen();
     void Stop();
   }
