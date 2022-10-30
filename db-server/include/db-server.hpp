@@ -1,4 +1,9 @@
-namespace db {
-  void start();
-  void stop();
+#pragma once
+
+namespace DbServer {
+  class Db {
+    void Start();
+    void Listen();
+    void Stop();
+  }
 };
