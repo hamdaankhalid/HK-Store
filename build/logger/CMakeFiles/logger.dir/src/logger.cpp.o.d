@@ -1,6 +1,6 @@
 logger/CMakeFiles/logger.dir/src/logger.cpp.o: \
-  /Users/hamdaankhalid/home-server-traffic-dashboard/logger/src/logger.cpp \
-  /Users/hamdaankhalid/home-server-traffic-dashboard/logger/./include/logger.hpp \
+  /Users/hamdaankhalid/hk-storage-engine/logger/src/logger.cpp \
+  /Users/hamdaankhalid/hk-storage-engine/logger/./include/logger.hpp \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/string \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/__config \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.3.sdk/usr/include/c++/v1/__config_site \

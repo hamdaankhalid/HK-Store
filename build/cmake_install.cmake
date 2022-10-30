@@ -1,4 +1,4 @@
-# Install script for directory: /Users/hamdaankhalid/home-server-traffic-dashboard
+# Install script for directory: /Users/hamdaankhalid/hk-storage-engine
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -12,7 +12,7 @@ if(NOT DEFINED CMAKE_INSTALL_CONFIG_NAME)
     string(REGEX REPLACE "^[^A-Za-z0-9_]+" ""
            CMAKE_INSTALL_CONFIG_NAME "${BUILD_TYPE}")
   else()
-    set(CMAKE_INSTALL_CONFIG_NAME "")
+    set(CMAKE_INSTALL_CONFIG_NAME "Debug")
   endif()
   message(STATUS "Install configuration: \"${CMAKE_INSTALL_CONFIG_NAME}\"")
 endif()
@@ -39,22 +39,22 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/Users/hamdaankhalid/home-server-traffic-dashboard/build/googletest/cmake_install.cmake")
+  include("/Users/hamdaankhalid/hk-storage-engine/build/googletest/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/Users/hamdaankhalid/home-server-traffic-dashboard/build/logger/cmake_install.cmake")
+  include("/Users/hamdaankhalid/hk-storage-engine/build/concurrent-hashmap/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/Users/hamdaankhalid/home-server-traffic-dashboard/build/filepoller/cmake_install.cmake")
+  include("/Users/hamdaankhalid/hk-storage-engine/build/logger/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("/Users/hamdaankhalid/home-server-traffic-dashboard/build/tests/cmake_install.cmake")
+  include("/Users/hamdaankhalid/hk-storage-engine/build/tests/cmake_install.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
@@ -65,5 +65,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/hamdaankhalid/home-server-traffic-dashboard/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/hamdaankhalid/hk-storage-engine/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

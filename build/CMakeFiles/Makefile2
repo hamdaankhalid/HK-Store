@@ -54,49 +54,49 @@ RM = /usr/local/Cellar/cmake/3.21.1/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/hamdaankhalid/home-server-traffic-dashboard
+CMAKE_SOURCE_DIR = /Users/hamdaankhalid/hk-storage-engine
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/hamdaankhalid/home-server-traffic-dashboard/build
+CMAKE_BINARY_DIR = /Users/hamdaankhalid/hk-storage-engine/build
 
 #=============================================================================
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
 all: googletest/all
+all: concurrent-hashmap/all
 all: logger/all
-all: filepoller/all
 all: tests/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
 preinstall: googletest/preinstall
+preinstall: concurrent-hashmap/preinstall
 preinstall: logger/preinstall
-preinstall: filepoller/preinstall
 preinstall: tests/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
 clean: googletest/clean
+clean: concurrent-hashmap/clean
 clean: logger/clean
-clean: filepoller/clean
 clean: tests/clean
 .PHONY : clean
 
 #=============================================================================
-# Directory level rules for directory filepoller
+# Directory level rules for directory concurrent-hashmap
 
 # Recursive "all" directory target.
-filepoller/all:
-.PHONY : filepoller/all
+concurrent-hashmap/all: concurrent-hashmap/CMakeFiles/concurrent_hashmap.dir/all
+.PHONY : concurrent-hashmap/all
 
 # Recursive "preinstall" directory target.
-filepoller/preinstall:
-.PHONY : filepoller/preinstall
+concurrent-hashmap/preinstall:
+.PHONY : concurrent-hashmap/preinstall
 
 # Recursive "clean" directory target.
-filepoller/clean:
-.PHONY : filepoller/clean
+concurrent-hashmap/clean: concurrent-hashmap/CMakeFiles/concurrent_hashmap.dir/clean
+.PHONY : concurrent-hashmap/clean
 
 #=============================================================================
 # Directory level rules for directory googletest
@@ -168,7 +168,7 @@ logger/clean: logger/CMakeFiles/logger.dir/clean
 # Directory level rules for directory tests
 
 # Recursive "all" directory target.
-tests/all: tests/CMakeFiles/home_server_traffic_dashboard_tests.dir/all
+tests/all: tests/CMakeFiles/hk_storage_engine_tests.dir/all
 .PHONY : tests/all
 
 # Recursive "preinstall" directory target.
@@ -176,7 +176,7 @@ tests/preinstall:
 .PHONY : tests/preinstall
 
 # Recursive "clean" directory target.
-tests/clean: tests/CMakeFiles/home_server_traffic_dashboard_tests.dir/clean
+tests/clean: tests/CMakeFiles/hk_storage_engine_tests.dir/clean
 .PHONY : tests/clean
 
 #=============================================================================
@@ -186,14 +186,14 @@ tests/clean: tests/CMakeFiles/home_server_traffic_dashboard_tests.dir/clean
 googletest/googlemock/CMakeFiles/gmock.dir/all: googletest/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) $(MAKESILENT) -f googletest/googlemock/CMakeFiles/gmock.dir/build.make googletest/googlemock/CMakeFiles/gmock.dir/depend
 	$(MAKE) $(MAKESILENT) -f googletest/googlemock/CMakeFiles/gmock.dir/build.make googletest/googlemock/CMakeFiles/gmock.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/hamdaankhalid/home-server-traffic-dashboard/build/CMakeFiles --progress-num=1,2 "Built target gmock"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/hamdaankhalid/hk-storage-engine/build/CMakeFiles --progress-num=3,4 "Built target gmock"
 .PHONY : googletest/googlemock/CMakeFiles/gmock.dir/all
 
 # Build rule for subdir invocation for target.
 googletest/googlemock/CMakeFiles/gmock.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hamdaankhalid/home-server-traffic-dashboard/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hamdaankhalid/hk-storage-engine/build/CMakeFiles 4
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 googletest/googlemock/CMakeFiles/gmock.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hamdaankhalid/home-server-traffic-dashboard/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hamdaankhalid/hk-storage-engine/build/CMakeFiles 0
 .PHONY : googletest/googlemock/CMakeFiles/gmock.dir/rule
 
 # Convenience name for target.
@@ -213,14 +213,14 @@ googletest/googlemock/CMakeFiles/gmock_main.dir/all: googletest/googlemock/CMake
 googletest/googlemock/CMakeFiles/gmock_main.dir/all: googletest/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) $(MAKESILENT) -f googletest/googlemock/CMakeFiles/gmock_main.dir/build.make googletest/googlemock/CMakeFiles/gmock_main.dir/depend
 	$(MAKE) $(MAKESILENT) -f googletest/googlemock/CMakeFiles/gmock_main.dir/build.make googletest/googlemock/CMakeFiles/gmock_main.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/hamdaankhalid/home-server-traffic-dashboard/build/CMakeFiles --progress-num=3,4 "Built target gmock_main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/hamdaankhalid/hk-storage-engine/build/CMakeFiles --progress-num=5,6 "Built target gmock_main"
 .PHONY : googletest/googlemock/CMakeFiles/gmock_main.dir/all
 
 # Build rule for subdir invocation for target.
 googletest/googlemock/CMakeFiles/gmock_main.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hamdaankhalid/home-server-traffic-dashboard/build/CMakeFiles 6
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hamdaankhalid/hk-storage-engine/build/CMakeFiles 6
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 googletest/googlemock/CMakeFiles/gmock_main.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hamdaankhalid/home-server-traffic-dashboard/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hamdaankhalid/hk-storage-engine/build/CMakeFiles 0
 .PHONY : googletest/googlemock/CMakeFiles/gmock_main.dir/rule
 
 # Convenience name for target.
@@ -239,14 +239,14 @@ googletest/googlemock/CMakeFiles/gmock_main.dir/clean:
 googletest/googletest/CMakeFiles/gtest_main.dir/all: googletest/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) $(MAKESILENT) -f googletest/googletest/CMakeFiles/gtest_main.dir/build.make googletest/googletest/CMakeFiles/gtest_main.dir/depend
 	$(MAKE) $(MAKESILENT) -f googletest/googletest/CMakeFiles/gtest_main.dir/build.make googletest/googletest/CMakeFiles/gtest_main.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/hamdaankhalid/home-server-traffic-dashboard/build/CMakeFiles --progress-num=7,8 "Built target gtest_main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/hamdaankhalid/hk-storage-engine/build/CMakeFiles --progress-num=9,10 "Built target gtest_main"
 .PHONY : googletest/googletest/CMakeFiles/gtest_main.dir/all
 
 # Build rule for subdir invocation for target.
 googletest/googletest/CMakeFiles/gtest_main.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hamdaankhalid/home-server-traffic-dashboard/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hamdaankhalid/hk-storage-engine/build/CMakeFiles 4
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 googletest/googletest/CMakeFiles/gtest_main.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hamdaankhalid/home-server-traffic-dashboard/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hamdaankhalid/hk-storage-engine/build/CMakeFiles 0
 .PHONY : googletest/googletest/CMakeFiles/gtest_main.dir/rule
 
 # Convenience name for target.
@@ -265,14 +265,14 @@ googletest/googletest/CMakeFiles/gtest_main.dir/clean:
 googletest/googletest/CMakeFiles/gtest.dir/all:
 	$(MAKE) $(MAKESILENT) -f googletest/googletest/CMakeFiles/gtest.dir/build.make googletest/googletest/CMakeFiles/gtest.dir/depend
 	$(MAKE) $(MAKESILENT) -f googletest/googletest/CMakeFiles/gtest.dir/build.make googletest/googletest/CMakeFiles/gtest.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/hamdaankhalid/home-server-traffic-dashboard/build/CMakeFiles --progress-num=5,6 "Built target gtest"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/hamdaankhalid/hk-storage-engine/build/CMakeFiles --progress-num=7,8 "Built target gtest"
 .PHONY : googletest/googletest/CMakeFiles/gtest.dir/all
 
 # Build rule for subdir invocation for target.
 googletest/googletest/CMakeFiles/gtest.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hamdaankhalid/home-server-traffic-dashboard/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hamdaankhalid/hk-storage-engine/build/CMakeFiles 2
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 googletest/googletest/CMakeFiles/gtest.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hamdaankhalid/home-server-traffic-dashboard/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hamdaankhalid/hk-storage-engine/build/CMakeFiles 0
 .PHONY : googletest/googletest/CMakeFiles/gtest.dir/rule
 
 # Convenience name for target.
@@ -285,20 +285,46 @@ googletest/googletest/CMakeFiles/gtest.dir/clean:
 .PHONY : googletest/googletest/CMakeFiles/gtest.dir/clean
 
 #=============================================================================
+# Target rules for target concurrent-hashmap/CMakeFiles/concurrent_hashmap.dir
+
+# All Build rule for target.
+concurrent-hashmap/CMakeFiles/concurrent_hashmap.dir/all:
+	$(MAKE) $(MAKESILENT) -f concurrent-hashmap/CMakeFiles/concurrent_hashmap.dir/build.make concurrent-hashmap/CMakeFiles/concurrent_hashmap.dir/depend
+	$(MAKE) $(MAKESILENT) -f concurrent-hashmap/CMakeFiles/concurrent_hashmap.dir/build.make concurrent-hashmap/CMakeFiles/concurrent_hashmap.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/hamdaankhalid/hk-storage-engine/build/CMakeFiles --progress-num=1,2 "Built target concurrent_hashmap"
+.PHONY : concurrent-hashmap/CMakeFiles/concurrent_hashmap.dir/all
+
+# Build rule for subdir invocation for target.
+concurrent-hashmap/CMakeFiles/concurrent_hashmap.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hamdaankhalid/hk-storage-engine/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 concurrent-hashmap/CMakeFiles/concurrent_hashmap.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hamdaankhalid/hk-storage-engine/build/CMakeFiles 0
+.PHONY : concurrent-hashmap/CMakeFiles/concurrent_hashmap.dir/rule
+
+# Convenience name for target.
+concurrent_hashmap: concurrent-hashmap/CMakeFiles/concurrent_hashmap.dir/rule
+.PHONY : concurrent_hashmap
+
+# clean rule for target.
+concurrent-hashmap/CMakeFiles/concurrent_hashmap.dir/clean:
+	$(MAKE) $(MAKESILENT) -f concurrent-hashmap/CMakeFiles/concurrent_hashmap.dir/build.make concurrent-hashmap/CMakeFiles/concurrent_hashmap.dir/clean
+.PHONY : concurrent-hashmap/CMakeFiles/concurrent_hashmap.dir/clean
+
+#=============================================================================
 # Target rules for target logger/CMakeFiles/logger.dir
 
 # All Build rule for target.
 logger/CMakeFiles/logger.dir/all:
 	$(MAKE) $(MAKESILENT) -f logger/CMakeFiles/logger.dir/build.make logger/CMakeFiles/logger.dir/depend
 	$(MAKE) $(MAKESILENT) -f logger/CMakeFiles/logger.dir/build.make logger/CMakeFiles/logger.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/hamdaankhalid/home-server-traffic-dashboard/build/CMakeFiles --progress-num=11,12 "Built target logger"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/hamdaankhalid/hk-storage-engine/build/CMakeFiles --progress-num=13,14 "Built target logger"
 .PHONY : logger/CMakeFiles/logger.dir/all
 
 # Build rule for subdir invocation for target.
 logger/CMakeFiles/logger.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hamdaankhalid/home-server-traffic-dashboard/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hamdaankhalid/hk-storage-engine/build/CMakeFiles 2
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 logger/CMakeFiles/logger.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hamdaankhalid/home-server-traffic-dashboard/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hamdaankhalid/hk-storage-engine/build/CMakeFiles 0
 .PHONY : logger/CMakeFiles/logger.dir/rule
 
 # Convenience name for target.
@@ -311,32 +337,33 @@ logger/CMakeFiles/logger.dir/clean:
 .PHONY : logger/CMakeFiles/logger.dir/clean
 
 #=============================================================================
-# Target rules for target tests/CMakeFiles/home_server_traffic_dashboard_tests.dir
+# Target rules for target tests/CMakeFiles/hk_storage_engine_tests.dir
 
 # All Build rule for target.
-tests/CMakeFiles/home_server_traffic_dashboard_tests.dir/all: googletest/googletest/CMakeFiles/gtest_main.dir/all
-tests/CMakeFiles/home_server_traffic_dashboard_tests.dir/all: googletest/googletest/CMakeFiles/gtest.dir/all
-tests/CMakeFiles/home_server_traffic_dashboard_tests.dir/all: logger/CMakeFiles/logger.dir/all
-	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/home_server_traffic_dashboard_tests.dir/build.make tests/CMakeFiles/home_server_traffic_dashboard_tests.dir/depend
-	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/home_server_traffic_dashboard_tests.dir/build.make tests/CMakeFiles/home_server_traffic_dashboard_tests.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/hamdaankhalid/home-server-traffic-dashboard/build/CMakeFiles --progress-num=9,10 "Built target home_server_traffic_dashboard_tests"
-.PHONY : tests/CMakeFiles/home_server_traffic_dashboard_tests.dir/all
+tests/CMakeFiles/hk_storage_engine_tests.dir/all: googletest/googletest/CMakeFiles/gtest_main.dir/all
+tests/CMakeFiles/hk_storage_engine_tests.dir/all: googletest/googletest/CMakeFiles/gtest.dir/all
+tests/CMakeFiles/hk_storage_engine_tests.dir/all: concurrent-hashmap/CMakeFiles/concurrent_hashmap.dir/all
+tests/CMakeFiles/hk_storage_engine_tests.dir/all: logger/CMakeFiles/logger.dir/all
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/hk_storage_engine_tests.dir/build.make tests/CMakeFiles/hk_storage_engine_tests.dir/depend
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/hk_storage_engine_tests.dir/build.make tests/CMakeFiles/hk_storage_engine_tests.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/hamdaankhalid/hk-storage-engine/build/CMakeFiles --progress-num=11,12 "Built target hk_storage_engine_tests"
+.PHONY : tests/CMakeFiles/hk_storage_engine_tests.dir/all
 
 # Build rule for subdir invocation for target.
-tests/CMakeFiles/home_server_traffic_dashboard_tests.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hamdaankhalid/home-server-traffic-dashboard/build/CMakeFiles 8
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/home_server_traffic_dashboard_tests.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hamdaankhalid/home-server-traffic-dashboard/build/CMakeFiles 0
-.PHONY : tests/CMakeFiles/home_server_traffic_dashboard_tests.dir/rule
+tests/CMakeFiles/hk_storage_engine_tests.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hamdaankhalid/hk-storage-engine/build/CMakeFiles 10
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/hk_storage_engine_tests.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hamdaankhalid/hk-storage-engine/build/CMakeFiles 0
+.PHONY : tests/CMakeFiles/hk_storage_engine_tests.dir/rule
 
 # Convenience name for target.
-home_server_traffic_dashboard_tests: tests/CMakeFiles/home_server_traffic_dashboard_tests.dir/rule
-.PHONY : home_server_traffic_dashboard_tests
+hk_storage_engine_tests: tests/CMakeFiles/hk_storage_engine_tests.dir/rule
+.PHONY : hk_storage_engine_tests
 
 # clean rule for target.
-tests/CMakeFiles/home_server_traffic_dashboard_tests.dir/clean:
-	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/home_server_traffic_dashboard_tests.dir/build.make tests/CMakeFiles/home_server_traffic_dashboard_tests.dir/clean
-.PHONY : tests/CMakeFiles/home_server_traffic_dashboard_tests.dir/clean
+tests/CMakeFiles/hk_storage_engine_tests.dir/clean:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/hk_storage_engine_tests.dir/build.make tests/CMakeFiles/hk_storage_engine_tests.dir/clean
+.PHONY : tests/CMakeFiles/hk_storage_engine_tests.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

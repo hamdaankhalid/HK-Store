@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/clang++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -isystem /Users/hamdaankhalid/home-server-traffic-dashboard/googletest/googletest/include -isystem /Users/hamdaankhalid/home-server-traffic-dashboard/googletest/googletest
+CXX_INCLUDES = -isystem /Users/hamdaankhalid/hk-storage-engine/googletest/googletest/include -isystem /Users/hamdaankhalid/hk-storage-engine/googletest/googletest
 
-CXX_FLAGS =  -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.3.sdk  -DGTEST_HAS_PTHREAD=1   -std=c++14
+CXX_FLAGS = -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.3.sdk  -DGTEST_HAS_PTHREAD=1   -std=c++14
 

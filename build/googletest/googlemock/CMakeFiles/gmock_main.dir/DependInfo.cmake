@@ -8,13 +8,13 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/Users/hamdaankhalid/home-server-traffic-dashboard/googletest/googlemock/src/gmock_main.cc" "googletest/googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o" "gcc" "googletest/googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o.d"
+  "/Users/hamdaankhalid/hk-storage-engine/googletest/googlemock/src/gmock_main.cc" "googletest/googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o" "gcc" "googletest/googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o.d"
   )
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/Users/hamdaankhalid/home-server-traffic-dashboard/build/googletest/googlemock/CMakeFiles/gmock.dir/DependInfo.cmake"
-  "/Users/hamdaankhalid/home-server-traffic-dashboard/build/googletest/googletest/CMakeFiles/gtest.dir/DependInfo.cmake"
+  "/Users/hamdaankhalid/hk-storage-engine/build/googletest/googlemock/CMakeFiles/gmock.dir/DependInfo.cmake"
+  "/Users/hamdaankhalid/hk-storage-engine/build/googletest/googletest/CMakeFiles/gtest.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

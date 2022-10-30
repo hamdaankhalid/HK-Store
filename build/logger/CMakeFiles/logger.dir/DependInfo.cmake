@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/Users/hamdaankhalid/home-server-traffic-dashboard/logger/src/logger.cpp" "logger/CMakeFiles/logger.dir/src/logger.cpp.o" "gcc" "logger/CMakeFiles/logger.dir/src/logger.cpp.o.d"
+  "/Users/hamdaankhalid/hk-storage-engine/logger/src/logger.cpp" "logger/CMakeFiles/logger.dir/src/logger.cpp.o" "gcc" "logger/CMakeFiles/logger.dir/src/logger.cpp.o.d"
   )
 
 # Targets to which this target links.

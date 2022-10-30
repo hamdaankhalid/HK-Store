@@ -57,10 +57,10 @@ RM = /usr/local/Cellar/cmake/3.21.1/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/hamdaankhalid/home-server-traffic-dashboard
+CMAKE_SOURCE_DIR = /Users/hamdaankhalid/hk-storage-engine
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/hamdaankhalid/home-server-traffic-dashboard/build
+CMAKE_BINARY_DIR = /Users/hamdaankhalid/hk-storage-engine/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -142,14 +142,14 @@ test/fast: test
 
 # The main all target
 all: cmake_check_build_system
-	cd /Users/hamdaankhalid/home-server-traffic-dashboard/build && $(CMAKE_COMMAND) -E cmake_progress_start /Users/hamdaankhalid/home-server-traffic-dashboard/build/CMakeFiles /Users/hamdaankhalid/home-server-traffic-dashboard/build/tests//CMakeFiles/progress.marks
-	cd /Users/hamdaankhalid/home-server-traffic-dashboard/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hamdaankhalid/home-server-traffic-dashboard/build/CMakeFiles 0
+	cd /Users/hamdaankhalid/hk-storage-engine/build && $(CMAKE_COMMAND) -E cmake_progress_start /Users/hamdaankhalid/hk-storage-engine/build/CMakeFiles /Users/hamdaankhalid/hk-storage-engine/build/tests//CMakeFiles/progress.marks
+	cd /Users/hamdaankhalid/hk-storage-engine/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hamdaankhalid/hk-storage-engine/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /Users/hamdaankhalid/home-server-traffic-dashboard/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/clean
+	cd /Users/hamdaankhalid/hk-storage-engine/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/clean
 .PHONY : clean
 
 # The main clean target
@@ -158,39 +158,39 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /Users/hamdaankhalid/home-server-traffic-dashboard/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/preinstall
+	cd /Users/hamdaankhalid/hk-storage-engine/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /Users/hamdaankhalid/home-server-traffic-dashboard/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/preinstall
+	cd /Users/hamdaankhalid/hk-storage-engine/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /Users/hamdaankhalid/home-server-traffic-dashboard/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /Users/hamdaankhalid/hk-storage-engine/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
-tests/CMakeFiles/home_server_traffic_dashboard_tests.dir/rule:
-	cd /Users/hamdaankhalid/home-server-traffic-dashboard/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/home_server_traffic_dashboard_tests.dir/rule
-.PHONY : tests/CMakeFiles/home_server_traffic_dashboard_tests.dir/rule
+tests/CMakeFiles/hk_storage_engine_tests.dir/rule:
+	cd /Users/hamdaankhalid/hk-storage-engine/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/hk_storage_engine_tests.dir/rule
+.PHONY : tests/CMakeFiles/hk_storage_engine_tests.dir/rule
 
 # Convenience name for target.
-home_server_traffic_dashboard_tests: tests/CMakeFiles/home_server_traffic_dashboard_tests.dir/rule
-.PHONY : home_server_traffic_dashboard_tests
+hk_storage_engine_tests: tests/CMakeFiles/hk_storage_engine_tests.dir/rule
+.PHONY : hk_storage_engine_tests
 
 # fast build rule for target.
-home_server_traffic_dashboard_tests/fast:
-	cd /Users/hamdaankhalid/home-server-traffic-dashboard/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/home_server_traffic_dashboard_tests.dir/build.make tests/CMakeFiles/home_server_traffic_dashboard_tests.dir/build
-.PHONY : home_server_traffic_dashboard_tests/fast
+hk_storage_engine_tests/fast:
+	cd /Users/hamdaankhalid/hk-storage-engine/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/hk_storage_engine_tests.dir/build.make tests/CMakeFiles/hk_storage_engine_tests.dir/build
+.PHONY : hk_storage_engine_tests/fast
 
 logger-tests.o: logger-tests.cpp.o
 .PHONY : logger-tests.o
 
 # target to build an object file
 logger-tests.cpp.o:
-	cd /Users/hamdaankhalid/home-server-traffic-dashboard/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/home_server_traffic_dashboard_tests.dir/build.make tests/CMakeFiles/home_server_traffic_dashboard_tests.dir/logger-tests.cpp.o
+	cd /Users/hamdaankhalid/hk-storage-engine/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/hk_storage_engine_tests.dir/build.make tests/CMakeFiles/hk_storage_engine_tests.dir/logger-tests.cpp.o
 .PHONY : logger-tests.cpp.o
 
 logger-tests.i: logger-tests.cpp.i
@@ -198,7 +198,7 @@ logger-tests.i: logger-tests.cpp.i
 
 # target to preprocess a source file
 logger-tests.cpp.i:
-	cd /Users/hamdaankhalid/home-server-traffic-dashboard/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/home_server_traffic_dashboard_tests.dir/build.make tests/CMakeFiles/home_server_traffic_dashboard_tests.dir/logger-tests.cpp.i
+	cd /Users/hamdaankhalid/hk-storage-engine/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/hk_storage_engine_tests.dir/build.make tests/CMakeFiles/hk_storage_engine_tests.dir/logger-tests.cpp.i
 .PHONY : logger-tests.cpp.i
 
 logger-tests.s: logger-tests.cpp.s
@@ -206,7 +206,7 @@ logger-tests.s: logger-tests.cpp.s
 
 # target to generate assembly for a file
 logger-tests.cpp.s:
-	cd /Users/hamdaankhalid/home-server-traffic-dashboard/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/home_server_traffic_dashboard_tests.dir/build.make tests/CMakeFiles/home_server_traffic_dashboard_tests.dir/logger-tests.cpp.s
+	cd /Users/hamdaankhalid/hk-storage-engine/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/hk_storage_engine_tests.dir/build.make tests/CMakeFiles/hk_storage_engine_tests.dir/logger-tests.cpp.s
 .PHONY : logger-tests.cpp.s
 
 # Help Target
@@ -222,7 +222,7 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... test"
-	@echo "... home_server_traffic_dashboard_tests"
+	@echo "... hk_storage_engine_tests"
 	@echo "... logger-tests.o"
 	@echo "... logger-tests.i"
 	@echo "... logger-tests.s"
@@ -237,6 +237,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /Users/hamdaankhalid/home-server-traffic-dashboard/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /Users/hamdaankhalid/hk-storage-engine/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

@@ -57,10 +57,10 @@ RM = /usr/local/Cellar/cmake/3.21.1/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/hamdaankhalid/home-server-traffic-dashboard
+CMAKE_SOURCE_DIR = /Users/hamdaankhalid/hk-storage-engine
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/hamdaankhalid/home-server-traffic-dashboard/build
+CMAKE_BINARY_DIR = /Users/hamdaankhalid/hk-storage-engine/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -142,14 +142,14 @@ list_install_components/fast: list_install_components
 
 # The main all target
 all: cmake_check_build_system
-	cd /Users/hamdaankhalid/home-server-traffic-dashboard/build && $(CMAKE_COMMAND) -E cmake_progress_start /Users/hamdaankhalid/home-server-traffic-dashboard/build/CMakeFiles /Users/hamdaankhalid/home-server-traffic-dashboard/build/logger//CMakeFiles/progress.marks
-	cd /Users/hamdaankhalid/home-server-traffic-dashboard/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 logger/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hamdaankhalid/home-server-traffic-dashboard/build/CMakeFiles 0
+	cd /Users/hamdaankhalid/hk-storage-engine/build && $(CMAKE_COMMAND) -E cmake_progress_start /Users/hamdaankhalid/hk-storage-engine/build/CMakeFiles /Users/hamdaankhalid/hk-storage-engine/build/logger//CMakeFiles/progress.marks
+	cd /Users/hamdaankhalid/hk-storage-engine/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 logger/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hamdaankhalid/hk-storage-engine/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /Users/hamdaankhalid/home-server-traffic-dashboard/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 logger/clean
+	cd /Users/hamdaankhalid/hk-storage-engine/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 logger/clean
 .PHONY : clean
 
 # The main clean target
@@ -158,22 +158,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /Users/hamdaankhalid/home-server-traffic-dashboard/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 logger/preinstall
+	cd /Users/hamdaankhalid/hk-storage-engine/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 logger/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /Users/hamdaankhalid/home-server-traffic-dashboard/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 logger/preinstall
+	cd /Users/hamdaankhalid/hk-storage-engine/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 logger/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /Users/hamdaankhalid/home-server-traffic-dashboard/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /Users/hamdaankhalid/hk-storage-engine/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 logger/CMakeFiles/logger.dir/rule:
-	cd /Users/hamdaankhalid/home-server-traffic-dashboard/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 logger/CMakeFiles/logger.dir/rule
+	cd /Users/hamdaankhalid/hk-storage-engine/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 logger/CMakeFiles/logger.dir/rule
 .PHONY : logger/CMakeFiles/logger.dir/rule
 
 # Convenience name for target.
@@ -182,7 +182,7 @@ logger: logger/CMakeFiles/logger.dir/rule
 
 # fast build rule for target.
 logger/fast:
-	cd /Users/hamdaankhalid/home-server-traffic-dashboard/build && $(MAKE) $(MAKESILENT) -f logger/CMakeFiles/logger.dir/build.make logger/CMakeFiles/logger.dir/build
+	cd /Users/hamdaankhalid/hk-storage-engine/build && $(MAKE) $(MAKESILENT) -f logger/CMakeFiles/logger.dir/build.make logger/CMakeFiles/logger.dir/build
 .PHONY : logger/fast
 
 src/logger.o: src/logger.cpp.o
@@ -190,7 +190,7 @@ src/logger.o: src/logger.cpp.o
 
 # target to build an object file
 src/logger.cpp.o:
-	cd /Users/hamdaankhalid/home-server-traffic-dashboard/build && $(MAKE) $(MAKESILENT) -f logger/CMakeFiles/logger.dir/build.make logger/CMakeFiles/logger.dir/src/logger.cpp.o
+	cd /Users/hamdaankhalid/hk-storage-engine/build && $(MAKE) $(MAKESILENT) -f logger/CMakeFiles/logger.dir/build.make logger/CMakeFiles/logger.dir/src/logger.cpp.o
 .PHONY : src/logger.cpp.o
 
 src/logger.i: src/logger.cpp.i
@@ -198,7 +198,7 @@ src/logger.i: src/logger.cpp.i
 
 # target to preprocess a source file
 src/logger.cpp.i:
-	cd /Users/hamdaankhalid/home-server-traffic-dashboard/build && $(MAKE) $(MAKESILENT) -f logger/CMakeFiles/logger.dir/build.make logger/CMakeFiles/logger.dir/src/logger.cpp.i
+	cd /Users/hamdaankhalid/hk-storage-engine/build && $(MAKE) $(MAKESILENT) -f logger/CMakeFiles/logger.dir/build.make logger/CMakeFiles/logger.dir/src/logger.cpp.i
 .PHONY : src/logger.cpp.i
 
 src/logger.s: src/logger.cpp.s
@@ -206,7 +206,7 @@ src/logger.s: src/logger.cpp.s
 
 # target to generate assembly for a file
 src/logger.cpp.s:
-	cd /Users/hamdaankhalid/home-server-traffic-dashboard/build && $(MAKE) $(MAKESILENT) -f logger/CMakeFiles/logger.dir/build.make logger/CMakeFiles/logger.dir/src/logger.cpp.s
+	cd /Users/hamdaankhalid/hk-storage-engine/build && $(MAKE) $(MAKESILENT) -f logger/CMakeFiles/logger.dir/build.make logger/CMakeFiles/logger.dir/src/logger.cpp.s
 .PHONY : src/logger.cpp.s
 
 # Help Target
@@ -237,6 +237,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /Users/hamdaankhalid/home-server-traffic-dashboard/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /Users/hamdaankhalid/hk-storage-engine/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 
