@@ -39,7 +39,7 @@ namespace DbServer {
     void delHandler();  
 
     // buffer to json and json to buffer helpers
-    void vecBufToJsn();
-    void jsnVecBuf();
+    void vecBufToJsn(std::vector<char> buf);
+    std::vector<char> jsnVecBuf(std::string rawjsonliteral);
   };
 };

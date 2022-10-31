@@ -34,7 +34,7 @@ int DbServer::Db::Listen() {
     recv(connection, buffer, 4, MSG_PEEK);
 
     // handle each connection and buffer
-
+    // TODO
   }
 
   return 0;
@@ -94,5 +94,25 @@ void DbServer::Db::stop() {
 }
 
 void DbServer::Db::handleBody(char* buf) {
+  // TODO
+}
 
+void getHandler() {
+  // TODO
+}
+
+void setHandler() {
+  // TODO
+}
+
+void delHandler() {
+  // TODO
+}
+
+void vecBufToJsn(std::vector<char> buf) {
+  // TODO
+}
+
+std::vector<char> jsnVecBuf(std::string rawjsonliteral) {
+  // TODO
 }
