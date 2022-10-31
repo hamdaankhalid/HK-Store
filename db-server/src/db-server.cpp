@@ -1,19 +1,22 @@
 #include "db-server.hpp"
+#include <sys/socket.h> // For socket functions
+#include <netinet/in.h> // For sockaddr_in
+#include <unistd.h> // For read
 
 #define SERVER_PORT 6969
 
-int DbServer::Db::Start() {
+
+int DbServer::Db::Start(int port) {
   int opt = 1;
-  int socketFd = ::socket(AF_INET, SOCK_STREAM, 0);
+  socketFd = ::socket(AF_INET, SOCK_STREAM, 0);
   if (-1 == socketFd) {
-    perror("server");
-    exit(EXIT_FAILURE);
+    return -1;
   }
+
   // Forcefully attaching socket to the port 8080 
   if (setsockopt(socketFd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt))) 
   { 
-    perror("setsockopt"); 
-    exit(EXIT_FAILURE); 
+    return -1;
   }
 
   struct sockaddr_in sockaddr, cliaddr;
@@ -22,44 +25,46 @@ int DbServer::Db::Start() {
   sockaddr.sin_addr.s_addr = INADDR_ANY;
 
   // htons is necessary to convert a number to network byte order
-  sockaddr.sin_port = htons(SERVER_PORT);
+  sockaddr.sin_port = htons(port);
   
   auto bindSuccess = ::bind(socketFd, (struct sockaddr*) &sockaddr, sizeof(sockaddr));
 
   if (bindSuccess < 0) {
-    perror("bind failed"); 
-    exit(EXIT_FAILURE);
+    return -1;
   }
 
-  int listenDescriptor = listen(socketFd, 10);
-  if (listenDescriptor != 0) {
-    perror("listen");
-    exit(EXIT_FAILURE);
-  }
-
-  auto addrlen = sizeof(cliaddr);
-  int connection;
-  std::cout << "Server started on port " << SERVER_PORT << std::endl;
+  listenDescriptor = listen(socketFd, 10);
+  if (listenDescriptor != 0)
+    return -1;
 }
 
-void DbServer::Db::Listen() {
-  while (true) {
+// blocking call
+int DbServer::Db::Listen() {
+  listening = true;
+
+  while (listening) {
     connection = accept(socketFd, (struct sockaddr*) &cliaddr, (socklen_t*)&addrlen);
     if (connection < 0) {
-      perror("connection accept"); 
-      exit(EXIT_FAILURE);
+      return -1;
     }
     
     char buffer[4];
-    memset(buffer, '\0', 4);
-    google::protobuf::uint32 size;
+    // read buffer and forward to thread that handles?
     recv(connection, buffer, 4, MSG_PEEK);
-    size = readHdr((char *) buffer);
-    handleBody(connection, size, lruc);
+
+    // handle each connection and buffer
+
   }
+
+  return 0;
 }
 
 void DbServer::Db::Stop() {
+  listening = false;
   close(listenDescriptor);
   shutdown(socketFd, SHUT_RDWR);
+}
+
+void DbServer::Db::handleBody(char* buf) {
+  
 }
