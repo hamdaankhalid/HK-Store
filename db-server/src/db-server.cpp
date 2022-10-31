@@ -4,8 +4,13 @@
 #include <unistd.h> // For read
 #include <stdexcept>
 #include <string>
+#include<thread>
+#include <cstring>
+
 
 #define SERVER_PORT 6969
+
+
 
 DbServer::Db::Db(int p): port(p) {
   int success = start();
@@ -14,6 +19,8 @@ DbServer::Db::Db(int p): port(p) {
     throw "Unable to boot up server";
   }
 }
+
+const std::string DbServer::Db::unknownCommandResp = "Another one";
 
 // blocking call
 int DbServer::Db::Listen() {
@@ -28,13 +35,12 @@ int DbServer::Db::Listen() {
       logger.LogError("Error accepting connection");
       return -1;
     }
-    
-    char buffer[4];
-    // read buffer and forward to thread that handles?
-    recv(connection, buffer, 4, MSG_PEEK);
 
-    // handle each connection and buffer
-    // TODO
+    // handle each connection by passing the buffer down to a thread
+    std::thread requesthandlerthread([&]() -> void {
+      handleBody(connection);
+    });
+    requesthandlerthread.detach();
   }
 
   return 0;
@@ -93,19 +99,52 @@ void DbServer::Db::stop() {
   shutdown(socketFd, SHUT_RDWR);
 }
 
-void DbServer::Db::handleBody(char* buf) {
+void DbServer::Db::handleBody(int connection) {
+  char bytebuffer[bufferSize];
+  // convert char* byte buffer to json string
+  auto cmd = readCommandHeader(bytebuffer);
+
+}
+
+std::string DbServer::Db::readCommandHeader(char* bytebuffer) {
+  read(connection, bytebuffer, commandByteSize);
+  Commands cmd;
+  try {
+    cmd = cmdMap.at(bytebuffer);
+  }
+  catch(const std::exception& e) {
+    std::memset(bytebuffer, 0, bufferSize);
+    memcpy(bytebuffer, unknownCommandResp.c_str(), bufferSize);
+    write(connection, bytebuffer, bufferSize);
+  }
+  
+  switch (cmd) {
+    case Commands::SET:
+      setHandler(connection, bytebuffer);
+      break;
+    case Commands::GET:
+      setHandler(connection, bytebuffer);
+      break;
+    case Commands::DEL:
+      delHandler(connection, bytebuffer);
+      break;
+    default:
+      std::memset(bytebuffer, 0, bufferSize);
+      memcpy(bytebuffer, unknownCommandResp.c_str(), bufferSize);
+      write(connection, bytebuffer, bufferSize);
+      break;
+  }
+}
+
+void setHandler(int connection, char* bytebuffer) {
   // TODO
 }
 
-void getHandler() {
+void getHandler(int connection, char* bytebuffer) {
   // TODO
 }
 
-void setHandler() {
-  // TODO
-}
-
-void delHandler() {
+void delHandler(int connection, char* bytebuffer) {
   // TODO
 }
 

@@ -4,8 +4,15 @@
 #include<memory>
 #include<concurrent-hashmap.hpp>
 #include<logger.hpp>
+#include<unordered_map>
 
 namespace DbServer {
+  enum Commands {
+    SET,
+    GET,
+    DEL
+  };
+
   class Db {
     public:
 
@@ -16,6 +23,9 @@ namespace DbServer {
     ~Db();
 
     private:
+    static const int bufferSize = 2000;
+    static const int commandByteSize = 3;
+    static const std::string unknownCommandResp;
 
     int port;
     int socketFd;
@@ -24,6 +34,12 @@ namespace DbServer {
     sockaddr_in cliaddr;
     int listenDescriptor;
     bool listening;
+    std::unordered_map<std::string, Commands> cmdMap = {
+      {"SET", Commands::SET},
+      {"GET", Commands::GET},
+      {"DEL", Commands::DEL}
+    };
+
     CustomLogger::Logger& logger = CustomLogger::Logger::GetInstance(std::cout);
 
     std::shared_ptr<ConcurMap::ConcurrentHashmap> store = std::make_shared<ConcurMap::ConcurrentHashmap>();
@@ -31,12 +47,13 @@ namespace DbServer {
     int start();
     void stop();
 
-    void handleBody(char* buf);
+    void handleBody(int connection);
+    std::string readCommandHeader(char* bytebuffer);
 
     // handlers are pure function but write to buf
-    void getHandler();
-    void setHandler();
-    void delHandler();  
+    void getHandler(int connection, char* bytebuffer);
+    void setHandler(int connection, char* bytebuffer);
+    void delHandler(int connection, char* bytebuffer);
 
     // buffer to json and json to buffer helpers
     void vecBufToJsn(std::vector<char> buf);
