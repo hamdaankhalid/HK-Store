@@ -26,6 +26,7 @@ namespace DbServer {
     static const int bufferSize = 2000;
     static const int commandByteSize = 3;
     static const std::string unknownCommandResp;
+    static const std::string noVal;
 
     int port;
     int socketFd;

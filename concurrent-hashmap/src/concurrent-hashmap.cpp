@@ -3,12 +3,12 @@
 #include <vector>
 #include <cstddef>
 
-void ConcurMap::ConcurrentHashmap::Set(std::string& key, std::vector<std::byte> val) {
+void ConcurMap::ConcurrentHashmap::Set(std::string& key, const char* val) {
   std::unique_lock<std::mutex> lock(mu);
   map.insert({key, val});
 }
 
-std::vector<std::byte> ConcurMap::ConcurrentHashmap::Get(std::string& key) {
+const char* ConcurMap::ConcurrentHashmap::Get(std::string& key) {
   std::unique_lock<std::mutex> lock(mu);
   try
   {
@@ -17,7 +17,7 @@ std::vector<std::byte> ConcurMap::ConcurrentHashmap::Get(std::string& key) {
   }
   catch(const std::exception& e)
   {
-    return {};
+    return "";
   }
 }
 

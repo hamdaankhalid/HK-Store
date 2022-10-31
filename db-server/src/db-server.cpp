@@ -21,6 +21,8 @@ DbServer::Db::Db(int p): port(p) {
 }
 
 const std::string DbServer::Db::unknownCommandResp = "Another one";
+const std::string DbServer::Db::noVal = "";
+
 
 // blocking call
 int DbServer::Db::Listen() {
@@ -102,8 +104,11 @@ void DbServer::Db::stop() {
 void DbServer::Db::handleBody(int connection) {
   char bytebuffer[bufferSize];
   // convert char* byte buffer to json string
+  
   auto cmd = readCommandHeader(bytebuffer);
-
+  if (cmd == noVal) {
+    return;
+  }
 }
 
 std::string DbServer::Db::readCommandHeader(char* bytebuffer) {
@@ -116,6 +121,7 @@ std::string DbServer::Db::readCommandHeader(char* bytebuffer) {
     std::memset(bytebuffer, 0, bufferSize);
     memcpy(bytebuffer, unknownCommandResp.c_str(), bufferSize);
     write(connection, bytebuffer, bufferSize);
+    return noVal;
   }
   
   switch (cmd) {
@@ -137,7 +143,7 @@ std::string DbServer::Db::readCommandHeader(char* bytebuffer) {
 }
 
 void setHandler(int connection, char* bytebuffer) {
-  // TODO
+  // from bytebuffer read key val json
 }
 
 void getHandler(int connection, char* bytebuffer) {
