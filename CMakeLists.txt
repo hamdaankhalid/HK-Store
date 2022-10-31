@@ -7,6 +7,9 @@ enable_testing()
 #### git submodule ####
 add_subdirectory(googletest)
 ###
+
+add_subdirectory(src)
+
 add_subdirectory(db-server)
 
 add_subdirectory(concurrent-hashmap)

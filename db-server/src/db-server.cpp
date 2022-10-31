@@ -1,7 +1,10 @@
 #include "db-server.hpp"
+
 #include <sys/socket.h> // For socket functions
 #include <netinet/in.h> // For sockaddr_in
 #include <unistd.h> // For read
+
+
 #include <stdexcept>
 #include <string>
 #include<thread>
@@ -21,8 +24,14 @@ DbServer::Db::Db(int p): port(p) {
 }
 
 const std::string DbServer::Db::unknownCommandResp = "Another one";
+
 const std::string DbServer::Db::noVal = "";
 
+const std::unordered_map<std::string, DbServer::Commands> DbServer::Db::cmdMap = {
+  {"SET", Commands::SET},
+  {"GET", Commands::GET},
+  {"DEL", Commands::DEL}
+};
 
 // blocking call
 int DbServer::Db::Listen() {
@@ -40,6 +49,7 @@ int DbServer::Db::Listen() {
 
     // handle each connection by passing the buffer down to a thread
     std::thread requesthandlerthread([&]() -> void {
+      logger.LogInfo("Connection recieved!");
       handleBody(connection);
     });
     requesthandlerthread.detach();
@@ -104,37 +114,21 @@ void DbServer::Db::stop() {
 void DbServer::Db::handleBody(int connection) {
   char bytebuffer[bufferSize];
   // convert char* byte buffer to json string
-  
-  auto cmd = readCommandHeader(bytebuffer);
-  if (cmd == noVal) {
-    return;
-  }
-}
+  read(connection, bytebuffer, bufferSize);
 
-std::string DbServer::Db::readCommandHeader(char* bytebuffer) {
-  read(connection, bytebuffer, commandByteSize);
-  Commands cmd;
-  try {
-    cmd = cmdMap.at(bytebuffer);
-  }
-  catch(const std::exception& e) {
-    std::memset(bytebuffer, 0, bufferSize);
-    memcpy(bytebuffer, unknownCommandResp.c_str(), bufferSize);
-    write(connection, bytebuffer, bufferSize);
-    return noVal;
-  }
-  
+  auto cmd = readCommandHeader(bytebuffer);
   switch (cmd) {
     case Commands::SET:
       setHandler(connection, bytebuffer);
       break;
     case Commands::GET:
-      setHandler(connection, bytebuffer);
+      getHandler(connection, bytebuffer);
       break;
     case Commands::DEL:
       delHandler(connection, bytebuffer);
       break;
     default:
+      logger.LogError("Command not found");
       std::memset(bytebuffer, 0, bufferSize);
       memcpy(bytebuffer, unknownCommandResp.c_str(), bufferSize);
       write(connection, bytebuffer, bufferSize);
@@ -142,22 +136,46 @@ std::string DbServer::Db::readCommandHeader(char* bytebuffer) {
   }
 }
 
-void setHandler(int connection, char* bytebuffer) {
-  // from bytebuffer read key val json
+DbServer::Commands DbServer::Db::readCommandHeader(char* bytebuffer) {
+  char cmdreaderbuf[commandByteSize];
+  memcpy(cmdreaderbuf, bytebuffer, commandByteSize);
+
+  std::string commandstr(cmdreaderbuf);
+  logger.LogInfo(commandstr + " decoded");
+  
+  Commands cmd;
+  try {
+    cmd = cmdMap.at(commandstr);
+  }
+  catch(const std::exception& e) {
+    return Commands::NEG;
+  }
+  return cmd;
 }
 
-void getHandler(int connection, char* bytebuffer) {
+void DbServer::Db::setHandler(int connection, char* bytebuffer) {
+  // from bytebuffer contains key and value
+  logger.LogInfo("set cmd");
+  std::memset(bytebuffer, 0, bufferSize);
+  memcpy(bytebuffer, unknownCommandResp.c_str(), bufferSize);
+  write(connection, bytebuffer, bufferSize);
+}
+
+void DbServer::Db::getHandler(int connection, char* bytebuffer) {
+  // TODO
+  logger.LogInfo("get: ");
+}
+
+void DbServer::Db::delHandler(int connection, char* bytebuffer) {
+  // TODO
+  logger.LogInfo("del: ");
+}
+
+void DbServer::Db::vecBufToJsn(std::vector<char> buf) {
   // TODO
 }
 
-void delHandler(int connection, char* bytebuffer) {
+std::vector<char> DbServer::Db::jsnVecBuf(std::string rawjsonliteral) {
   // TODO
-}
-
-void vecBufToJsn(std::vector<char> buf) {
-  // TODO
-}
-
-std::vector<char> jsnVecBuf(std::string rawjsonliteral) {
-  // TODO
+  return {};
 }

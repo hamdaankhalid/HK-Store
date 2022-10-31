@@ -4,10 +4,11 @@ set(SOURCES
   main.cpp
 )
 
-add_executable(home_server_traffic_dashboard_tests ${SOURCES})
+add_executable(hk_db ${SOURCES})
 
 target_link_libraries(
-  home_server_traffic_dashboard PRIVATE_HEADER
-  filepoller
-  logger
+  hk_db PUBLIC
+  db_server
 )
+
+target_compile_features(hk_db PUBLIC cxx_std_17)

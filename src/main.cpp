@@ -1,6 +1,6 @@
-#include <logger.hpp>
+#include <db-server.hpp>
 
 int main(int argc, char* argv[]) {
-  CustomLogger::Logger& logger = CustomLogger::Logger::GetInstance(std::cout);
-  
+  DbServer::Db db(3000);
+  db.Listen();
 }

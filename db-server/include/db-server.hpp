@@ -5,12 +5,15 @@
 #include<concurrent-hashmap.hpp>
 #include<logger.hpp>
 #include<unordered_map>
+#include <netinet/in.h> // For sockaddr_in
+
 
 namespace DbServer {
   enum Commands {
     SET,
     GET,
-    DEL
+    DEL,
+    NEG
   };
 
   class Db {
@@ -27,6 +30,7 @@ namespace DbServer {
     static const int commandByteSize = 3;
     static const std::string unknownCommandResp;
     static const std::string noVal;
+    static const std::unordered_map<std::string, Commands> cmdMap;
 
     int port;
     int socketFd;
@@ -35,11 +39,7 @@ namespace DbServer {
     sockaddr_in cliaddr;
     int listenDescriptor;
     bool listening;
-    std::unordered_map<std::string, Commands> cmdMap = {
-      {"SET", Commands::SET},
-      {"GET", Commands::GET},
-      {"DEL", Commands::DEL}
-    };
+    
 
     CustomLogger::Logger& logger = CustomLogger::Logger::GetInstance(std::cout);
 
@@ -49,7 +49,7 @@ namespace DbServer {
     void stop();
 
     void handleBody(int connection);
-    std::string readCommandHeader(char* bytebuffer);
+    Commands readCommandHeader(char* bytebuffer);
 
     // handlers are pure function but write to buf
     void getHandler(int connection, char* bytebuffer);

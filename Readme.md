@@ -1,7 +1,9 @@
 # A DB for my apps
 - An in-memory hashmap with asynchronous persistence on disk.
 - Clients are expected to send data in format: 
-  ```CMD KEY VALUE```
+  ```CMD KEY_SIZE VAL_SIZE KEY VALUE```
+  VAL_SIZE and VALUE are only there for certain commands/
+
 - Key should be a string, and value should be a serialized json
 - The validation and responsibility to serialize the json's is of the client implementation.
 - Db only stores a dumb mapping of key, serialized val.
