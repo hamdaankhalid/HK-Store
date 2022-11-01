@@ -10,10 +10,15 @@
 #include<thread>
 #include <cstring>
 
-
 #define SERVER_PORT 6969
 
 
+// util to read an int32 offset for sizes from a bytebuffer
+int void readSizeFromBuf(char* byteBuffer, int offset) {
+  int value;
+  std::copy(byteBuffer, byteBuffer+sizeof(int), reinterpret_cast<char*>(value));
+  return value;
+}
 
 DbServer::Db::Db(int p): port(p) {
   int success = start();
@@ -23,7 +28,7 @@ DbServer::Db::Db(int p): port(p) {
   }
 }
 
-const std::string DbServer::Db::unknownCommandResp = "Another one";
+const std::string DbServer::Db::unknownCommandResp = "Another one\n";
 
 const std::string DbServer::Db::noVal = "";
 
@@ -130,10 +135,12 @@ void DbServer::Db::handleBody(int connection) {
     default:
       logger.LogError("Command not found");
       std::memset(bytebuffer, 0, bufferSize);
-      memcpy(bytebuffer, unknownCommandResp.c_str(), bufferSize);
+      memcpy(bytebuffer, unknownCommandResp.c_str(), unknownCommandResp.size());
       write(connection, bytebuffer, bufferSize);
       break;
   }
+  // after we write back a response we can close our connection cutely
+  close(connection);
 }
 
 DbServer::Commands DbServer::Db::readCommandHeader(char* bytebuffer) {
@@ -153,11 +160,28 @@ DbServer::Commands DbServer::Db::readCommandHeader(char* bytebuffer) {
   return cmd;
 }
 
+/**
+ *  SET Request Format: SET KEY_SIZE VAL_SIZE key.... val....
+ * Set handler needs to  do validationg that we have valid key size and val size
+ * and that it fits in our byte buffer max size
+ * */
 void DbServer::Db::setHandler(int connection, char* bytebuffer) {
   // from bytebuffer contains key and value
-  logger.LogInfo("set cmd");
+  logger.LogInfo("set cmd recieved");
+
+  // we are going to strictly deal with int32 4 bytes in buffer sent 
+  // first n bytes (commandByteSize) are taken over to signify command.
+  int keySize = readSizeFromBuf(bytebuffer, commandByteSize+1);
+  int valSize = readSizeFromBuf(bytebuffer, commandByteSize+1+sizeof(int)+1);
+
+  // TODO read key and value and add to concurrent map
+
+  // clear buffer
   std::memset(bytebuffer, 0, bufferSize);
-  memcpy(bytebuffer, unknownCommandResp.c_str(), bufferSize);
+  // set response
+  std::string s("SUCCESS\n");
+  memcpy(bytebuffer, s.c_str(), s.size());
+  
   write(connection, bytebuffer, bufferSize);
 }
 
