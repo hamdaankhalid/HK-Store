@@ -9,6 +9,13 @@
 
 
 namespace DbServer {
+
+  namespace Utils {
+    int ReadSizeFromBuf(unsigned char* byteBuffer, int offset);
+    void ReadCharsFromBuf(unsigned char* byteBuffer, int startPosition, int size, unsigned char* result);
+    void WriteResponse(unsigned char* byteBuffer, const std::string& response, int connection, int bufferSize);
+  }
+
   enum Commands {
     SET,
     GET,
@@ -51,19 +58,15 @@ namespace DbServer {
 
     std::shared_ptr<ConcurMap::ConcurrentHashmap> store = std::make_shared<ConcurMap::ConcurrentHashmap>();
 
-    int start();
-    void stop();
+    int Start();
+    void Stop();
 
-    void handleBody(int connection);
-    Commands readCommandHeader(char* bytebuffer);
+    void HandleBody(int connection);
+    Commands ReadCommandHeader(unsigned char* bytebuffer);
 
     // handlers are pure function but write to buf
-    void getHandler(int connection, char* bytebuffer);
-    void setHandler(int connection, char* bytebuffer);
-    void delHandler(int connection, char* bytebuffer);
-
-    // buffer to json and json to buffer helpers
-    void vecBufToJsn(std::vector<char> buf);
-    std::vector<char> jsnVecBuf(std::string rawjsonliteral);
+    void GetHandler(int connection, unsigned char* bytebuffer);
+    void SetHandler(int connection, unsigned char* bytebuffer);
+    void DelHandler(int connection, unsigned char* bytebuffer);
   };
 };
