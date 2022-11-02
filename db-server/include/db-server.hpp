@@ -28,8 +28,14 @@ namespace DbServer {
     private:
     static const int bufferSize = 2000;
     static const int commandByteSize = 3;
+    static const int spaceDelimitter = 1;
+    
     static const std::string unknownCommandResp;
+    static const std::string bufferSizeContradictionResp;
+    static const std::string successResp;
+
     static const std::string noVal;
+    
     static const std::unordered_map<std::string, Commands> cmdMap;
 
     int port;

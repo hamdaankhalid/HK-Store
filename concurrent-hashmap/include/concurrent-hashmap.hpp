@@ -10,14 +10,13 @@
 namespace ConcurMap {
   class ConcurrentHashmap {
     public:
-    void Set(std::string& key, const char* val);
-    const char* Get(std::string& key);
-    void Del(std::string& key);
+    void Set(const std::string& key, const char* val);
+    const char* Get(const std::string& key);
+    void Del(const std::string& key);
 
     private:
-    std::unordered_map<std::string, const char*> map;
+    // key being a string lets us not implement a comparison operation
+    std::unordered_map<std::string, char*> map;
     std::mutex mu;
   };
 };
-
-

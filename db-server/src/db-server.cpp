@@ -13,11 +13,23 @@
 #define SERVER_PORT 6969
 
 
-// util to read an int32 offset for sizes from a bytebuffer
-int void readSizeFromBuf(char* byteBuffer, int offset) {
+int readSizeFromBuf(char* byteBuffer, int offset) {
   int value;
-  std::copy(byteBuffer, byteBuffer+sizeof(int), reinterpret_cast<char*>(value));
+  std::copy(byteBuffer+offset, byteBuffer+offset+sizeof(int), reinterpret_cast<char*>(value));
   return value;
+}
+
+// Note: before invoking this function we perform  validation against potential buffer overflow
+char* readCharsFromBuf(char* byteBuffer, int startPosition, int size) {
+  char[size]  result;
+  std::copy(byteBuffer+startPosition, byteBuffer+startPosition+size, result);
+  return result;
+}
+
+void writeResponse(char* byteBuffer, const std::string& response, int connection) {
+  std::memset(bytebuffer, 0, bufferSize);
+  memcpy(bytebuffer, response.c_str(), response.size());
+  write(connection, bytebuffer, bufferSize);
 }
 
 DbServer::Db::Db(int p): port(p) {
@@ -28,7 +40,11 @@ DbServer::Db::Db(int p): port(p) {
   }
 }
 
+const std::string DbServer::Db::bufferSizeContradictionResp = "size contradiction\n";
+
 const std::string DbServer::Db::unknownCommandResp = "Another one\n";
+
+const std::string DbServer::Db::successResp = "success\n";
 
 const std::string DbServer::Db::noVal = "";
 
@@ -118,10 +134,11 @@ void DbServer::Db::stop() {
 
 void DbServer::Db::handleBody(int connection) {
   char bytebuffer[bufferSize];
-  // convert char* byte buffer to json string
+  
   read(connection, bytebuffer, bufferSize);
-
+  
   auto cmd = readCommandHeader(bytebuffer);
+
   switch (cmd) {
     case Commands::SET:
       setHandler(connection, bytebuffer);
@@ -134,9 +151,7 @@ void DbServer::Db::handleBody(int connection) {
       break;
     default:
       logger.LogError("Command not found");
-      std::memset(bytebuffer, 0, bufferSize);
-      memcpy(bytebuffer, unknownCommandResp.c_str(), unknownCommandResp.size());
-      write(connection, bytebuffer, bufferSize);
+      writeResponse(bytebuffer, unknownCommandResp, connection);
       break;
   }
   // after we write back a response we can close our connection cutely
@@ -148,7 +163,7 @@ DbServer::Commands DbServer::Db::readCommandHeader(char* bytebuffer) {
   memcpy(cmdreaderbuf, bytebuffer, commandByteSize);
 
   std::string commandstr(cmdreaderbuf);
-  logger.LogInfo(commandstr + " decoded");
+  logger.LogInfo("command decoded from buffer: "commandstr);
   
   Commands cmd;
   try {
@@ -171,28 +186,40 @@ void DbServer::Db::setHandler(int connection, char* bytebuffer) {
 
   // we are going to strictly deal with int32 4 bytes in buffer sent 
   // first n bytes (commandByteSize) are taken over to signify command.
-  int keySize = readSizeFromBuf(bytebuffer, commandByteSize+1);
-  int valSize = readSizeFromBuf(bytebuffer, commandByteSize+1+sizeof(int)+1);
+  int keyByteSize = readSizeFromBuf(bytebuffer, commandByteSize + spaceDelimitter);
+  int valByteSize = readSizeFromBuf(bytebuffer, commandByteSize + spaceDelimitter + sizeof(int) + spaceDelimitter);
 
-  // TODO read key and value and add to concurrent map
+  // CMD_KEYSIZEBYTES_VALSIZEBYTES_KEY..._VAL...
+  int bufferMemoryUsedByMetadata = commandByteSize + spaceDelimitter + sizeof(int) + spaceDelimitter + sizeof(int);
+  int bufferMemoryToBeUsed = keyByteSize+valByteSize+bufferMemoryUsedByMetadata+spaceDelimitter;
 
-  // clear buffer
-  std::memset(bytebuffer, 0, bufferSize);
-  // set response
-  std::string s("SUCCESS\n");
-  memcpy(bytebuffer, s.c_str(), s.size());
+  if (bufferMemoryToBeUsed > bufferSize) {
+    writeResponse(bytebuffer, bufferSizeContradictionResp, connection);
+    return;
+  }
+
+  int bufferOccupiedTillKeyIdx = bufferMemoryUsedByMetadata;
+  char* key = readCharsFromBuf(byteBuffer, bufferOccupiedTillKeyIdx, keySize);
   
-  write(connection, bytebuffer, bufferSize);
+  bufferOccupiedTillValIdx = bufferOccupiedTillKeyIdx+spaceDelimitter;
+  char* val = readCharsFromBuf(byteBuffer, bufferOccupiedTillValIdx, valSize);
+
+  std::string keystr(key);
+  cmdMap.Get(keystr, val);
+
+  writeResponse(bytebuffer, successResp, connection);
 }
 
 void DbServer::Db::getHandler(int connection, char* bytebuffer) {
   // TODO
-  logger.LogInfo("get: ");
+  logger.LogInfo("get cmd recieved");
+  writeResponse(bytebuffer, successResp, connection);
 }
 
 void DbServer::Db::delHandler(int connection, char* bytebuffer) {
   // TODO
-  logger.LogInfo("del: ");
+  logger.LogInfo("del cmd recieved");
+  writeResponse(bytebuffer, successResp, connection);
 }
 
 void DbServer::Db::vecBufToJsn(std::vector<char> buf) {
