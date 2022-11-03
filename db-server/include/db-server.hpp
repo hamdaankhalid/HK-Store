@@ -15,6 +15,7 @@ namespace DbServer {
     int ReadSizeFromBuf(unsigned char* byteBuffer, int offset);
     void ReadCharsFromBuf(unsigned char* byteBuffer, int startPosition, int size, unsigned char* result);
     void WriteResponse(unsigned char* byteBuffer, const std::string& response, int connection, int bufferSize);
+    void WriteVecResponse(unsigned char* byteBuffer, const std::vector<unsigned char> response, int connection, int bufferSize);
   }
 
   enum Commands {

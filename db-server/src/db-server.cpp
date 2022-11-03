@@ -42,11 +42,11 @@ void DbServer::Utils::WriteResponse(unsigned char* byteBuffer, const std::string
   write(connection, byteBuffer, bufferSize);
 }
 
-// void writeByteDataResponse(unsigned char* byteBuffer, const char * byteResponse, int byteResponseSize int connection) {
-//   std::memset(bytebuffer, 0, bufferSize);
-//   memcpy(bytebuffer, byteResponse, byteResponseSize);
-//   write(connection, bytebuffer, bufferSize);
-// }
+void DbServer::Utils::WriteVecResponse(unsigned char* byteBuffer, const std::vector<unsigned char> response, int connection, int bufferSize) {
+  std::memset(byteBuffer, 0, bufferSize);
+  std::copy(response.begin(), response.end(), byteBuffer);
+  write(connection, byteBuffer, bufferSize);
+}
 
 DbServer::Db::Db(int p): port(p) {
   int success = Start();
@@ -245,14 +245,13 @@ void DbServer::Db::GetHandler(int connection, unsigned char* bytebuffer) {
     return;
   }
 
-  // TODO
-  // unsigned char* key = ReadCharsFromBuf(byteBuffer, bufferMemoryUsedByMetadata, keySize);
+  std::vector<unsigned char> key = Utils::DataAsVec(bytebuffer, bufferMemoryUsedByMetadata, keyByteSize);
 
-  // std::string keystr(reinterpret_cast<char*>(key));
-  // unsigned char* result = cmdMap.Get(keystr);
-  // std::string valStr(reinterpret_cast<char*>(result));
+  std::string keystr(key.begin(), key.end());
+  logger.LogInfo("getting " + keystr);
 
-  // WriteResponse(bytebuffer, valStr,  connection);
+  std::vector<unsigned char> result = store->Get(keystr);
+  Utils::WriteVecResponse(bytebuffer, result,  connection, bufferSize);
 }
 
 void DbServer::Db::DelHandler(int connection, unsigned char* bytebuffer) {
@@ -267,11 +266,12 @@ void DbServer::Db::DelHandler(int connection, unsigned char* bytebuffer) {
     return;
   }
   
-  // TODO
-  // unsigned char* key = ReadCharsFromBuf(byteBuffer, bufferMemoryUsedByMetadata, keySize);
+  std::vector<unsigned char> key = Utils::DataAsVec(bytebuffer, bufferMemoryUsedByMetadata, keyByteSize);
 
-  // std::string keystr(reinterpret_cast<char*>(key));
-  // cmdMap.Del(keystr);
+  std::string keystr(key.begin(), key.end());
+  logger.LogInfo("deleting " + keystr);
+
+  store->Del(keystr);
 
   Utils::WriteResponse(bytebuffer, successResp, connection, bufferSize);
 }
