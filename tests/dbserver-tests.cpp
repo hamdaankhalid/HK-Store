@@ -16,7 +16,6 @@ TEST(DbServerUtils, ReadSizeFromBuf) {
   buffer[5] = val & 0xFF;
 
   buffer[6] = 'y';
-  buffer[7] = 'y';
 
   int res = DbServer::Utils::ReadSizeFromBuf(buffer, 2);
 
@@ -33,7 +32,6 @@ TEST(DbServerUtils, ReadSizeFromBuf) {
   buffer[5] = val & 0xFF;
 
   buffer[6] = 'y';
-  buffer[7] = 'y';
 
   res = DbServer::Utils::ReadSizeFromBuf(buffer, 2);
   EXPECT_EQ(res, val);
@@ -45,6 +43,17 @@ TEST(DbServerUtils, ReadCharsFromBuf) {
 
   unsigned char result[5];
   DbServer::Utils::ReadCharsFromBuf(falseProphetBuffer, 2, 5, result);
+
+  for (int i = 0; i < 5; i++) {
+    EXPECT_EQ(result[i], expected[i]);
+  }
+}
+
+TEST(DbServerUtils, DataAsVec) {
+  std::vector<unsigned char> expected = {'l', 'i', 'k', 'e', 'd'};
+  unsigned char falseProphetBuffer[] = {'i', ' ', 'l', 'i', 'k', 'e', 'd', ' ', 'u'};
+
+  std::vector<unsigned char> result = DbServer::Utils::DataAsVec(falseProphetBuffer, 2, 5);
 
   for (int i = 0; i < 5; i++) {
     EXPECT_EQ(result[i], expected[i]);

@@ -25,9 +25,15 @@ int DbServer::Utils::ReadSizeFromBuf(unsigned char* byteBuffer, int offset) {
   return value;
 }
 
-// Note: before invoking this function we perform  validation against potential buffer overflow
+// Note: Used only for metadata.
 void DbServer::Utils::ReadCharsFromBuf(unsigned char* byteBuffer, int startPosition, int size, unsigned char* result) {
   memcpy(result, byteBuffer+startPosition, size);
+}
+
+std::vector<unsigned char> DbServer::Utils::DataAsVec(unsigned char* byteBuffer, int startPosition, int size) {
+  std::vector<unsigned char> res;
+  res.insert(res.end(), byteBuffer+startPosition, byteBuffer+startPosition+size);
+  return res;
 }
 
 void DbServer::Utils::WriteResponse(unsigned char* byteBuffer, const std::string& response, int connection, int bufferSize) {
@@ -143,6 +149,7 @@ void DbServer::Db::Stop() {
 }
 
 void DbServer::Db::HandleBody(int connection) {
+  // bufferSize is a const so im not worried about stack overflow
   unsigned char bytebuffer[bufferSize];
   
   read(connection, bytebuffer, bufferSize);
@@ -169,10 +176,10 @@ void DbServer::Db::HandleBody(int connection) {
 }
 
 DbServer::Commands DbServer::Db::ReadCommandHeader(unsigned char* bytebuffer) {
-  unsigned char cmdreaderbuf[commandByteSize];
-  memcpy(cmdreaderbuf, bytebuffer, commandByteSize);
+  // using const to allocate memory
+  std::vector<unsigned char> cmdreaderbuf = Utils::DataAsVec(bytebuffer, 0, commandByteSize);
 
-  std::string commandstr((char*)cmdreaderbuf);
+  std::string commandstr(cmdreaderbuf.begin(), cmdreaderbuf.end());
   logger.LogInfo("command decoded from buffer: " + commandstr);
   
   Commands cmd;
@@ -197,7 +204,10 @@ void DbServer::Db::SetHandler(int connection, unsigned char* bytebuffer) {
   // we are going to strictly deal with int32 4 bytes in buffer sent 
   // first n bytes (commandByteSize) are taken over to signify command.
   int keyByteSize = Utils::ReadSizeFromBuf(bytebuffer, commandByteSize + spaceDelimitter);
+  logger.LogInfo("key byte size " + std::to_string(keyByteSize));
+  
   int valByteSize = Utils::ReadSizeFromBuf(bytebuffer, commandByteSize + spaceDelimitter + sizeof(int) + spaceDelimitter);
+  logger.LogInfo("val byte size " + std::to_string(valByteSize));
 
   // CMD_KEYSIZEBYTES_VALSIZEBYTES_KEY..._VAL...
   int bufferMemoryUsedByMetadata = commandByteSize + spaceDelimitter + sizeof(int) + spaceDelimitter + sizeof(int) + spaceDelimitter;
@@ -208,19 +218,17 @@ void DbServer::Db::SetHandler(int connection, unsigned char* bytebuffer) {
     return;
   }
 
-  unsigned char key[keyByteSize];
-  Utils::ReadCharsFromBuf(bytebuffer, bufferMemoryUsedByMetadata, keyByteSize, key);
+
+  std::vector<unsigned char> key = Utils::DataAsVec(bytebuffer, bufferMemoryUsedByMetadata, keyByteSize);
   
   int bufferOccupiedTillValIdx = bufferMemoryUsedByMetadata + keyByteSize + spaceDelimitter;
-  unsigned char val[valByteSize];
-  Utils::ReadCharsFromBuf(bytebuffer, bufferOccupiedTillValIdx, valByteSize, val);
+  
+  std::vector<unsigned char> val = Utils::DataAsVec(bytebuffer, bufferOccupiedTillValIdx, valByteSize);
 
-  std::vector<unsigned char> bytevec(val, val + valByteSize);
-
-  std::string keystr(reinterpret_cast<char*>(key));
+  std::string keystr(key.begin(), key.end());
 
   logger.LogInfo("Set for " + keystr);
-  store->Set(keystr, bytevec);
+  store->Set(keystr, val);
 
   Utils::WriteResponse(bytebuffer, successResp, connection, bufferSize);
 }

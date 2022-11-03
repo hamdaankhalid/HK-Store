@@ -11,6 +11,7 @@
 namespace DbServer {
 
   namespace Utils {
+    std::vector<unsigned char> DataAsVec(unsigned char* byteBuffer, int startPosition, int size);
     int ReadSizeFromBuf(unsigned char* byteBuffer, int offset);
     void ReadCharsFromBuf(unsigned char* byteBuffer, int startPosition, int size, unsigned char* result);
     void WriteResponse(unsigned char* byteBuffer, const std::string& response, int connection, int bufferSize);
