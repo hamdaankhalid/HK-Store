@@ -7,8 +7,8 @@ def set_request():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.connect((HOST, PORT))
         
-        key_size = (3).to_bytes(4,'big')
-        val_size = (5).to_bytes(4,'big')
+        key_size = (3).to_bytes(4,'little')
+        val_size = (5).to_bytes(4,'little')
 
         request = b"SET " + key_size + b" " + val_size + b" cat spark"
 
@@ -23,7 +23,7 @@ def get_request():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.connect((HOST, PORT))
         
-        key_size = (3).to_bytes(4,'big')
+        key_size = (3).to_bytes(4,'little')
 
         request = b"GET " + key_size + b" " + b"cat"
 
@@ -38,7 +38,7 @@ def del_request():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.connect((HOST, PORT))
         
-        key_size = (3).to_bytes(4,'big')
+        key_size = (3).to_bytes(4,'little')
 
         request = b"DEL " + key_size + b" " + b"cat"
 

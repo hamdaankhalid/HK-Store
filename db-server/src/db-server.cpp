@@ -16,10 +16,10 @@
 int DbServer::Utils::ReadSizeFromBuf(unsigned char* byteBuffer, int offset) {
   auto offsetadjusted = byteBuffer;
   int value = int(
-    (offsetadjusted[0 + offset]) << 24 |
-    (offsetadjusted[1 + offset]) << 16 |
-    (offsetadjusted[2 + offset]) << 8 |
-    (offsetadjusted[3 + offset])
+    (offsetadjusted[3 + offset]) << 24 |
+    (offsetadjusted[2 + offset]) << 16 |
+    (offsetadjusted[1 + offset]) << 8 |
+    (offsetadjusted[0 + offset])
   );
 
   return value;
