@@ -25,11 +25,6 @@ int DbServer::Utils::ReadSizeFromBuf(unsigned char* byteBuffer, int offset) {
   return value;
 }
 
-// Note: Used only for metadata.
-void DbServer::Utils::ReadCharsFromBuf(unsigned char* byteBuffer, int startPosition, int size, unsigned char* result) {
-  memcpy(result, byteBuffer+startPosition, size);
-}
-
 std::vector<unsigned char> DbServer::Utils::DataAsVec(unsigned char* byteBuffer, int startPosition, int size) {
   std::vector<unsigned char> res;
   res.insert(res.end(), byteBuffer+startPosition, byteBuffer+startPosition+size);
@@ -38,7 +33,7 @@ std::vector<unsigned char> DbServer::Utils::DataAsVec(unsigned char* byteBuffer,
 
 void DbServer::Utils::WriteResponse(unsigned char* byteBuffer, const std::string& response, int connection, int bufferSize) {
   std::memset(byteBuffer, 0, bufferSize);
-  memcpy(byteBuffer, response.c_str(), response.size());
+  std::copy(response.begin(), response.end(), byteBuffer);
   write(connection, byteBuffer, bufferSize);
 }
 
