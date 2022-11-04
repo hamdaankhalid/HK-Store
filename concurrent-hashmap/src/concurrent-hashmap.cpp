@@ -25,3 +25,7 @@ void ConcurMap::ConcurrentHashmap::Del(const std::string& key) {
   std::unique_lock<std::mutex> lock(mu);
   map.erase(key);
 }
+
+std::unordered_map<std::string, std::vector<unsigned char>> ConcurMap::ConcurrentHashmap::GetState() {
+  return map;
+}
