@@ -43,7 +43,7 @@ void DbServer::Utils::WriteVecResponse(unsigned char* byteBuffer, const std::vec
   write(connection, byteBuffer, bufferSize);
 }
 
-DbServer::Db::Db(int p): port(p) {
+DbServer::Db::Db(std::shared_ptr<ConcurMap::MapStore> storage, int p): store(storage), port(p) {
   int success = Start();
   if (success != 0) {
     logger.LogError("Unable to boot error");

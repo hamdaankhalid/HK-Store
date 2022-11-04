@@ -1,6 +1,8 @@
+#include<concurrent-hashmap.hpp>
 #include <db-server.hpp>
 
 int main(int argc, char* argv[]) {
-  DbServer::Db db(3000);
-  db.Listen();
+  auto storage = std::shared_ptr<ConcurMap::MapStore>(new ConcurMap::ConcurrentHashmap);
+  DbServer::Db dbserver(storage, 3000);
+  dbserver.Listen();
 }

@@ -27,7 +27,7 @@ namespace DbServer {
   class Db {
     public:
 
-    Db(int p);
+    Db(std::shared_ptr<ConcurMap::MapStore> storage, int p);
 
     int Listen();
 
@@ -57,7 +57,7 @@ namespace DbServer {
 
     CustomLogger::Logger& logger = CustomLogger::Logger::GetInstance(std::cout);
 
-    std::shared_ptr<ConcurMap::ConcurrentHashmap> store = std::make_shared<ConcurMap::ConcurrentHashmap>();
+    std::shared_ptr<ConcurMap::MapStore> store;
 
     int Start();
     void Stop();

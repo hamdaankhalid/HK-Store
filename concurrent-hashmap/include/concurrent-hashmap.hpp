@@ -8,7 +8,17 @@
 
 
 namespace ConcurMap {
-  class ConcurrentHashmap {
+
+  class MapStore {
+    public:
+    ~MapStore(){};
+
+    virtual void Set(const std::string& key, const std::vector<unsigned char>& val) = 0;
+    virtual std::vector<unsigned char> Get(const std::string& key) = 0;
+    virtual void Del(const std::string& key) = 0;
+  };
+
+  class ConcurrentHashmap : public MapStore {
     public:
     void Set(const std::string& key, const std::vector<unsigned char>& val);
     std::vector<unsigned char> Get(const std::string& key);
