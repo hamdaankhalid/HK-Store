@@ -198,14 +198,16 @@ void DbServer::Db::SetHandler(int connection, unsigned char* bytebuffer) {
 
   // we are going to strictly deal with int32 4 bytes in buffer sent 
   // first n bytes (commandByteSize) are taken over to signify command.
-  int keyByteSize = Utils::ReadSizeFromBuf(bytebuffer, commandByteSize + spaceDelimitter);
+  int bufferMemoryTillKeySize = commandByteSize + spaceDelimitter;
+  int keyByteSize = Utils::ReadSizeFromBuf(bytebuffer, bufferMemoryTillKeySize);
   logger.LogInfo("key byte size " + std::to_string(keyByteSize));
   
-  int valByteSize = Utils::ReadSizeFromBuf(bytebuffer, commandByteSize + spaceDelimitter + sizeof(int) + spaceDelimitter);
+  int bufferMemoryTillValSize = bufferMemoryTillKeySize + sizeof(int) + spaceDelimitter;
+  int valByteSize = Utils::ReadSizeFromBuf(bytebuffer, bufferMemoryTillValSize);
   logger.LogInfo("val byte size " + std::to_string(valByteSize));
 
   // CMD_KEYSIZEBYTES_VALSIZEBYTES_KEY..._VAL...
-  int bufferMemoryUsedByMetadata = commandByteSize + spaceDelimitter + sizeof(int) + spaceDelimitter + sizeof(int) + spaceDelimitter;
+  int bufferMemoryUsedByMetadata = bufferMemoryTillValSize + sizeof(int) + spaceDelimitter;
   int bufferMemoryToBeUsed = keyByteSize+valByteSize+bufferMemoryUsedByMetadata+spaceDelimitter;
 
   if (bufferMemoryToBeUsed > bufferSize) {
@@ -213,12 +215,11 @@ void DbServer::Db::SetHandler(int connection, unsigned char* bytebuffer) {
     return;
   }
 
-
   std::vector<unsigned char> key = Utils::DataAsVec(bytebuffer, bufferMemoryUsedByMetadata, keyByteSize);
   
-  int bufferOccupiedTillValIdx = bufferMemoryUsedByMetadata + keyByteSize + spaceDelimitter;
-  
-  std::vector<unsigned char> val = Utils::DataAsVec(bytebuffer, bufferOccupiedTillValIdx, valByteSize);
+  // store valsize metadata and value
+  int bufferOccupiedTillValMetadata = bufferMemoryTillValSize;
+  std::vector<unsigned char> val = Utils::DataAsVec(bytebuffer, bufferOccupiedTillValMetadata, valByteSize);
 
   std::string keystr(key.begin(), key.end());
 
@@ -245,6 +246,7 @@ void DbServer::Db::GetHandler(int connection, unsigned char* bytebuffer) {
   std::string keystr(key.begin(), key.end());
   logger.LogInfo("getting " + keystr);
 
+  // result will now contain metadata for valuse size and value as well
   std::vector<unsigned char> result = store->Get(keystr);
   Utils::WriteVecResponse(bytebuffer, result,  connection, bufferSize);
 }
