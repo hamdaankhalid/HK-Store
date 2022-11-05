@@ -65,7 +65,7 @@ const std::unordered_map<std::string, DbServer::Commands> DbServer::Db::cmdMap =
   {"DEL", Commands::DEL}
 };
 
-// blocking call
+// blocking call used to accept incoming connections and handle them in their own thread
 int DbServer::Db::Listen() {
   
   listening = true;
@@ -79,7 +79,7 @@ int DbServer::Db::Listen() {
       return -1;
     }
 
-    // handle each connection by passing the buffer down to a thread
+    // handle each connection by passing the buffer down to it's own detached thread
     std::thread requesthandlerthread([&]() -> void {
       logger.LogInfo("Connection recieved!");
       HandleBody(connection);

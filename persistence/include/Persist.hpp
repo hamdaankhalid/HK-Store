@@ -19,8 +19,7 @@ class DiskPersist : public Persist {
   std::string snapshotFileLocation;
 
   public:
-  DiskPersist(std::shared_ptr<ConcurMap::MapStore> state, std::string _snapshotFileLocation);
+  DiskPersist(std::shared_ptr<ConcurMap::MapStore> _store, std::string _snapshotFileLocation);
   void AsyncPersist();
   void Hydrate();
 }
-
