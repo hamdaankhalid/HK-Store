@@ -56,6 +56,6 @@ def main():
     c = Client("127.0.0.1", 3000)
     c.set_request()
     c.get_request()
-    c.del_request()
+    #c.del_request()
 
 main()

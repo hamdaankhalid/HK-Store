@@ -14,6 +14,8 @@ add_subdirectory(db-server)
 
 add_subdirectory(concurrent-hashmap)
 
+add_subdirectory(persistence)
+
 add_subdirectory(logger)
 
 add_subdirectory(tests)

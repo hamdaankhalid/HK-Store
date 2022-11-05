@@ -1,7 +1,7 @@
 #pragma once
 
-#include<string>
-#include<iostream>
+#include <string>
+#include <iostream>
 
 namespace CustomLogger {
   enum LogLevel { Errors, All, None };

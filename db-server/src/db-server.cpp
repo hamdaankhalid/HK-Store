@@ -7,7 +7,7 @@
 
 #include <stdexcept>
 #include <string>
-#include<thread>
+#include <thread>
 #include <cstring>
 
 #define SERVER_PORT 6969
