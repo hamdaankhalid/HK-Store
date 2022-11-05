@@ -6,6 +6,7 @@ target_link_libraries(
   db_server PUBLIC 
   logger
   concurrent_hashmap
+  persistence
 )
 
 target_include_directories(db_server PUBLIC ./include)

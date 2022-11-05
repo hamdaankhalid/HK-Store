@@ -4,6 +4,8 @@
 #include <memory>
 #include <concurrent-hashmap.hpp>
 #include <logger.hpp>
+#include <persistence.hpp>
+
 #include <unordered_map>
 #include <netinet/in.h> // For sockaddr_in
 
@@ -27,7 +29,7 @@ namespace DbServer {
   class Db {
     public:
 
-    Db(std::shared_ptr<ConcurMap::MapStore> storage, int p);
+    Db(std::shared_ptr<ConcurMap::MapStore> storage, int p, bool persist);
 
     int Listen();
 
@@ -58,6 +60,7 @@ namespace DbServer {
     CustomLogger::Logger& logger = CustomLogger::Logger::GetInstance(std::cout);
 
     std::shared_ptr<ConcurMap::MapStore> store;
+    DiskPersist persister;
 
     int Start();
     void Stop();
