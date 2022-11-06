@@ -37,7 +37,7 @@ void DbServer::Utils::WriteResponse(unsigned char* byteBuffer, const std::string
   write(connection, byteBuffer, bufferSize);
 }
 
-void DbServer::Utils::WriteVecResponse(unsigned char* byteBuffer, const std::vector<unsigned char> response, int connection, int bufferSize) {
+void DbServer::Utils::WriteVecResponse(unsigned char* byteBuffer, const std::vector<unsigned char>& response, int connection, int bufferSize) {
   std::memset(byteBuffer, 0, bufferSize);
   std::copy(response.begin(), response.end(), byteBuffer);
   write(connection, byteBuffer, bufferSize);
@@ -225,7 +225,19 @@ void DbServer::Db::SetHandler(int connection, unsigned char* bytebuffer) {
   
   // store valsize metadata and value
   int bufferOccupiedTillVal = bufferMemoryUsedByMetadata + spaceDelimitter + keyByteSize;
-  std::vector<unsigned char> val = Utils::DataAsVec(bytebuffer, bufferOccupiedTillVal, valByteSize);
+
+  // create a val buffer that includes valByteSize and val adn delimitter space
+  std::vector<unsigned char> val(sizeof(int) + spaceDelimitter + valByteSize, 0);
+  std::vector<unsigned char> value = Utils::DataAsVec(bytebuffer, bufferOccupiedTillVal, valByteSize);
+  
+  for (int i = 0; i < 4; i++)
+    val[i] = valByteSize >> (i * 8);  
+  
+  val[4] = ' ';
+
+  for (int j = 0; j < valByteSize; j++)
+    val[j+5] = value.at(j);
+
 
   std::string keystr(key.begin(), key.end());
 

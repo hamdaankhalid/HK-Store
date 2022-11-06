@@ -60,10 +60,10 @@ void DiskPersist::Hydrate() {
     return;
   }
   
-  unsigned char byte = 0;
+  char byte = 0;
   // TODO: PARSE AND SET
   while (inFile.get(byte)) {
-    std::cout << byte << "-";
+    std::cout << byte << "|";
   }
 
   std::cout << "\n";
