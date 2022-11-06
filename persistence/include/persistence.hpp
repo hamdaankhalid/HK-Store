@@ -19,7 +19,7 @@ class Persist {
 class DiskPersist : public Persist {
   const std::string tempFileLocation = "temp";
   const std::string primaryFileLocation = "hk_db_state";
-  const std::string keyValSeparator = "~";
+  const char keyValSeparator = '~';
   const std::string recordSeparator = "\n";
 
   std::shared_ptr<ConcurMap::MapStore> store;

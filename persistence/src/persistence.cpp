@@ -30,7 +30,7 @@ void DiskPersist::AsyncPersist() {
         auto val = item.second;
 
         outFile.write(key.c_str(), key.size());
-        outFile.write(keyValSeparator.c_str(), keyValSeparator.size());
+        outFile.write(&keyValSeparator, sizeof(char));
         outFile.write((char*)val.data(), val.size());
         outFile.write(recordSeparator.c_str(), recordSeparator.size());
       }
@@ -60,13 +60,32 @@ void DiskPersist::Hydrate() {
     return;
   }
   
-  char byte = 0;
-  // TODO: PARSE AND SET
+  char byte;
+  bool keyStringReadingCompleted = false;
+  std::stringstream keystream;
+  std::vector<unsigned char> val;
+
   while (inFile.get(byte)) {
-    std::cout << byte << "|";
+    if (byte == '\n') {
+      std::string key = keystream.str();
+      store->Set(key, val);
+
+      keystream.str( std::string() );
+      keystream.clear();
+      val.clear();
+    }
+
+    if (byte == keyValSeparator) {
+      keyStringReadingCompleted = true;
+      // skip over the useless byte
+      continue;
+    }
+
+    if (!keyStringReadingCompleted) {
+      keystream << byte;
+    } else {
+      val.push_back(byte);
+    }
   }
-
-  std::cout << "\n";
-
   inFile.close();
 }
