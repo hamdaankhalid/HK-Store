@@ -21,19 +21,17 @@ void DiskPersist::AsyncPersist() {
     while (true) {
       std::this_thread::sleep_for(interval);
       std::unordered_map<std::string, std::vector<unsigned char> > state = store->GetState();
-
       std::string temporaryFile = snapshotFileLocation+tempFileLocation;
-
-
       std::ofstream outFile(temporaryFile, std::ios::out | std::ios::binary);
+
       for (auto const& item: state) {
         auto key = item.first;
-        
         auto val = item.second;
 
-        outFile << key << keyValSeparator;
+        outFile.write(key.c_str(), key.size());
+        outFile.write(keyValSeparator.c_str(), keyValSeparator.size());
         outFile.write((char*)val.data(), val.size());
-        outFile << recordSeparator;
+        outFile.write(recordSeparator.c_str(), recordSeparator.size());
       }
       outFile.close();
 
@@ -55,11 +53,23 @@ void DiskPersist::AsyncPersist() {
  * */
 void DiskPersist::Hydrate() {
   auto dataFile = snapshotFileLocation+primaryFileLocation;
-  // if dataFile exists open it read it and hydrate our store
-  std::ifstream inFile(dataFile, std::ios::out | std::ios::binary);
-  std::string record; 
-  while (getline(inFile, record)) {
-    std::cout << record;
+  std::ifstream inFile(dataFile, std::ios::binary);
+  if (inFile.fail()) {
+    inFile.close();
+    return;
   }
+  
+  inFile.seekg(0, std::ios::end);
+  size_t length = inFile.tellg();
+  std::cout << length << std::endl;
+
+  std::vector<unsigned char> buffer(length);
+  inFile.read((char*)buffer.data(), length);
+  // why is data not coming as anything meaningful
+  for (auto c: buffer) {
+    std::cout << c << ",";
+  }
+  std::cout << "\n";
+
   inFile.close();
 }

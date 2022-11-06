@@ -43,12 +43,7 @@ void DbServer::Utils::WriteVecResponse(unsigned char* byteBuffer, const std::vec
   write(connection, byteBuffer, bufferSize);
 }
 
-DbServer::Db::Db(std::shared_ptr<ConcurMap::MapStore> storage, int p, bool persist): store(storage), port(p) {
-  if (persist) {
-    persister = DiskPersist persist(storage, "../data/");
-    persister.Hydrate();
-  }
-
+DbServer::Db::Db(std::shared_ptr<ConcurMap::MapStore> storage, int p, bool _persist): store(storage), port(p), persist(_persist) {
   int success = Start();
   if (success != 0) {
     logger.LogError("Unable to boot error");
@@ -72,7 +67,12 @@ const std::unordered_map<std::string, DbServer::Commands> DbServer::Db::cmdMap =
 
 // blocking call used to accept incoming connections and handle them in their own thread
 int DbServer::Db::Listen() {
-  persister.AsyncPersist();
+  if (persist) {
+    logger.LogInfo("Server setting up persistence");
+    DiskPersist persister(store, "../data/");
+    persister.Hydrate();
+    persister.AsyncPersist();
+  }
   
   listening = true;
 

@@ -55,12 +55,11 @@ namespace DbServer {
     sockaddr_in cliaddr;
     int listenDescriptor;
     bool listening;
-    
+    bool persist;
 
     CustomLogger::Logger& logger = CustomLogger::Logger::GetInstance(std::cout);
 
     std::shared_ptr<ConcurMap::MapStore> store;
-    DiskPersist persister;
 
     int Start();
     void Stop();
