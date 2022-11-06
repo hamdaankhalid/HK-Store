@@ -224,8 +224,8 @@ void DbServer::Db::SetHandler(int connection, unsigned char* bytebuffer) {
   std::vector<unsigned char> key = Utils::DataAsVec(bytebuffer, bufferMemoryUsedByMetadata, keyByteSize);
   
   // store valsize metadata and value
-  int bufferOccupiedTillValMetadata = bufferMemoryTillValSize;
-  std::vector<unsigned char> val = Utils::DataAsVec(bytebuffer, bufferOccupiedTillValMetadata, valByteSize);
+  int bufferOccupiedTillVal = bufferMemoryUsedByMetadata + spaceDelimitter + keyByteSize;
+  std::vector<unsigned char> val = Utils::DataAsVec(bytebuffer, bufferOccupiedTillVal, valByteSize);
 
   std::string keystr(key.begin(), key.end());
 
@@ -254,7 +254,7 @@ void DbServer::Db::GetHandler(int connection, unsigned char* bytebuffer) {
 
   // result will now contain metadata for valuse size and value as well
   std::vector<unsigned char> result = store->Get(keystr);
-  Utils::WriteVecResponse(bytebuffer, result,  connection, bufferSize);
+  Utils::WriteVecResponse(bytebuffer, result, connection, bufferSize);
 }
 
 void DbServer::Db::DelHandler(int connection, unsigned char* bytebuffer) {

@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 #include <filesystem>
+#include <sstream>
 
 #include <concurrent-hashmap.hpp>
 #include <persistence.hpp>
@@ -23,7 +24,7 @@ void DiskPersist::AsyncPersist() {
       std::unordered_map<std::string, std::vector<unsigned char> > state = store->GetState();
       std::string temporaryFile = snapshotFileLocation+tempFileLocation;
       std::ofstream outFile(temporaryFile, std::ios::out | std::ios::binary);
-
+  
       for (auto const& item: state) {
         auto key = item.first;
         auto val = item.second;
@@ -53,22 +54,18 @@ void DiskPersist::AsyncPersist() {
  * */
 void DiskPersist::Hydrate() {
   auto dataFile = snapshotFileLocation+primaryFileLocation;
-  std::ifstream inFile(dataFile, std::ios::binary);
+  std::ifstream inFile(dataFile);
   if (inFile.fail()) {
     inFile.close();
     return;
   }
   
-  inFile.seekg(0, std::ios::end);
-  size_t length = inFile.tellg();
-  std::cout << length << std::endl;
-
-  std::vector<unsigned char> buffer(length);
-  inFile.read((char*)buffer.data(), length);
-  // why is data not coming as anything meaningful
-  for (auto c: buffer) {
-    std::cout << c << ",";
+  unsigned char byte = 0;
+  // TODO: PARSE AND SET
+  while (inFile.get(byte)) {
+    std::cout << byte << "-";
   }
+
   std::cout << "\n";
 
   inFile.close();
