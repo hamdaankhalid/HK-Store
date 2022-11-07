@@ -20,7 +20,6 @@ DiskPersist::DiskPersist(std::shared_ptr<ConcurMap::MapStore> _store, std::strin
 void DiskPersist::AsyncPersist() {
   std::thread bgPersist([&]() -> void {
     while (true) {
-      std::this_thread::sleep_for(interval);
       std::unordered_map<std::string, std::vector<unsigned char> > state = store->GetState();
       std::string temporaryFile = snapshotFileLocation+tempFileLocation;
       std::ofstream outFile(temporaryFile, std::ios::out | std::ios::binary);
@@ -41,6 +40,8 @@ void DiskPersist::AsyncPersist() {
       const std::filesystem::path from = temporaryFile;
       const std::filesystem::path to = dataFile;
       std::filesystem::rename(from, to);
+
+      std::this_thread::sleep_for(interval);
     }
   });
 
@@ -49,8 +50,8 @@ void DiskPersist::AsyncPersist() {
 
 
 /**
- * Upon bootup look for snapshotFile and hydrate map with last saved values. If the file does
- * not exist just run it. We do not need to add values to our map
+ * Blocking methof which should look for snapshotFile and hydrate db state with last saved values. 
+ * If the file does no values are added.
  * */
 void DiskPersist::Hydrate() {
   auto dataFile = snapshotFileLocation+primaryFileLocation;
@@ -73,6 +74,7 @@ void DiskPersist::Hydrate() {
       keystream.str( std::string() );
       keystream.clear();
       val.clear();
+      keyStringReadingCompleted = false;
     }
 
     if (byte == keyValSeparator) {
@@ -81,9 +83,9 @@ void DiskPersist::Hydrate() {
       continue;
     }
 
-    if (!keyStringReadingCompleted) {
+    if (!keyStringReadingCompleted && byte != '\n') {
       keystream << byte;
-    } else {
+    } else if (keyStringReadingCompleted && byte != '\n') {
       val.push_back(byte);
     }
   }

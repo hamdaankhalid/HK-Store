@@ -6,14 +6,15 @@ class Client:
         self.PORT = port
         self.ENDIANESS = 'little'
 
-    def set_request(self):
+    def set_request(self, key, val):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.connect((self.HOST, self.PORT))
             
-            key_size = (3).to_bytes(4,self.ENDIANESS)
-            val_size = (5).to_bytes(4,self.ENDIANESS)
+            key_size = (len(key)).to_bytes(4,self.ENDIANESS)
+            val_size = (len(val)).to_bytes(4,self.ENDIANESS)
+            key_val = f" {key} {val}"
 
-            request = b"SET " + key_size + b" " + val_size + b" cat spark"
+            request = b"SET " + key_size + b" " + val_size + str.encode(key_val)
 
             print(request)
 
@@ -22,13 +23,13 @@ class Client:
 
         print(f"Received {data!r}")
 
-    def get_request(self):
+    def get_request(self, key):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.connect((self.HOST, self.PORT))
             
-            key_size = (3).to_bytes(4,self.ENDIANESS)
+            key_size = (len(key)).to_bytes(4,self.ENDIANESS)
 
-            request = b"GET " + key_size + b" " + b"cat"
+            request = b"GET " + key_size + b" " + str.encode(key)
 
             print(request)
 
@@ -37,13 +38,13 @@ class Client:
 
         print(f"Received {data!r}")
 
-    def del_request(self):
+    def del_request(self, key):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.connect((self.HOST, self.PORT))
             
-            key_size = (3).to_bytes(4,self.ENDIANESS)
+            key_size = (len(key)).to_bytes(4,self.ENDIANESS)
 
-            request = b"DEL " + key_size + b" " + b"cat"
+            request = b"DEL " + key_size + b" " + str.encode(key)
 
             print(request)
 
@@ -54,8 +55,19 @@ class Client:
 
 def main():
     c = Client("127.0.0.1", 3000)
-    c.set_request()
-    c.get_request()
+    c.set_request("owner", "hamdaan")
+    print("#"*10)
+    c.set_request("cat", "spark")
+    print("#"*10)
+    c.set_request("friend", "tm")
+    print("#"*10)
+    c.get_request("owner")
+    print("#"*10)
+    c.get_request("cat")
+    print("#"*10)
+    c.get_request("friend")
+    print("#"*10)
+    c.get_request("pat")
     #c.del_request()
 
 main()

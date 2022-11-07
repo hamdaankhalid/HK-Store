@@ -5,7 +5,7 @@
 
 void ConcurMap::ConcurrentHashmap::Set(const std::string& key, const std::vector<unsigned char>& val) {
   std::unique_lock<std::mutex> lock(mu);
-  map.insert({key, val});
+  map[key] = val;
 }
 
 std::vector<unsigned char> ConcurMap::ConcurrentHashmap::Get(const std::string& key) {

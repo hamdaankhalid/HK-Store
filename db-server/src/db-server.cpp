@@ -66,7 +66,7 @@ const std::unordered_map<std::string, DbServer::Commands> DbServer::Db::cmdMap =
 };
 
 // blocking call used to accept incoming connections and handle them in their own thread
-int DbServer::Db::Listen() {
+int DbServer::Db::Listen() {  
   if (persist) {
     logger.LogInfo("Server setting up persistence");
     DiskPersist persister(store, "../data/");
@@ -243,7 +243,7 @@ void DbServer::Db::SetHandler(int connection, unsigned char* bytebuffer) {
 
   logger.LogInfo("Set for " + keystr);
   store->Set(keystr, val);
-
+  
   Utils::WriteResponse(bytebuffer, successResp, connection, bufferSize);
 }
 

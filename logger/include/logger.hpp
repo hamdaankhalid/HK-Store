@@ -1,12 +1,13 @@
 #pragma once
 
 #include <string>
+#include <mutex>
 #include <iostream>
 
 namespace CustomLogger {
   enum LogLevel { Errors, All, None };
 
-  class Logger {
+  class LoggerFactory {
     public:
     static Logger& GetInstance(std::ostream& stream);
 
@@ -33,6 +34,9 @@ namespace CustomLogger {
 
     LogLevel debugLevel = LogLevel::All;
     std::ostream ostr;
+
+    // methods use this mutex to keep sync access to the private variables
+    std::mutex mu;
   };
 };
 
