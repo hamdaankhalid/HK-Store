@@ -7,7 +7,7 @@
 namespace CustomLogger {
   enum LogLevel { Errors, All, None };
 
-  class LoggerFactory {
+  class Logger {
     public:
     static Logger& GetInstance(std::ostream& stream);
 

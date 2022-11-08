@@ -33,7 +33,11 @@ std::vector<unsigned char> DbServer::Utils::DataAsVec(unsigned char* byteBuffer,
 
 void DbServer::Utils::WriteResponse(unsigned char* byteBuffer, const std::string& response, int connection, int bufferSize) {
   std::memset(byteBuffer, 0, bufferSize);
-  std::copy(response.begin(), response.end(), byteBuffer);
+  char respSize = response.size();
+  for (int i = 0; i < 4; i++)
+    byteBuffer[i] = respSize >> (i * 8); 
+  byteBuffer[4] = ' ';
+  std::copy(response.begin(), response.end(), byteBuffer+5);
   write(connection, byteBuffer, bufferSize);
 }
 
@@ -51,11 +55,11 @@ DbServer::Db::Db(std::shared_ptr<ConcurMap::MapStore> storage, int p, bool _pers
   }
 }
 
-const std::string DbServer::Db::bufferSizeContradictionResp = "size contradiction\n";
+const std::string DbServer::Db::bufferSizeContradictionResp = "size contradiction";
 
-const std::string DbServer::Db::unknownCommandResp = "Another one\n";
+const std::string DbServer::Db::unknownCommandResp = "Another one";
 
-const std::string DbServer::Db::successResp = "success\n";
+const std::string DbServer::Db::successResp = "success";
 
 const std::string DbServer::Db::noVal = "";
 

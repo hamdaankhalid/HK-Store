@@ -4,7 +4,6 @@
 #include <iostream>
 
 CustomLogger::Logger& CustomLogger::Logger::GetInstance(std::ostream& stream) {
-  std::unique_lock<std::mutex> lock(mu);
   static Logger l(stream);
   return l;
 }
