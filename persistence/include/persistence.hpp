@@ -24,7 +24,7 @@ class DiskPersist : public Persist {
 
   std::shared_ptr<ConcurMap::MapStore> store;
   std::string snapshotFileLocation;
-  std::chrono::minutes interval = std::chrono::minutes(15);
+  std::chrono::minutes interval = std::chrono::minutes(5);
 
   public:
   DiskPersist(std::shared_ptr<ConcurMap::MapStore> _store, std::string _snapshotFileLocation);
