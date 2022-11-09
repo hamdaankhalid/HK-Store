@@ -29,3 +29,13 @@ void ConcurMap::ConcurrentHashmap::Del(const std::string& key) {
 std::unordered_map<std::string, std::vector<unsigned char>> ConcurMap::ConcurrentHashmap::GetState() {
   return map;
 }
+
+std::vector<std::string> ConcurMap::ConcurrentHashmap::AllKeys() {
+  std::unique_lock<std::mutex> lock(mu);
+  std::vector<std::string> res;
+  res.reserve(map.size());
+  for (auto element: map) {
+    res.push_back(element.first);
+  }
+  return res;
+}

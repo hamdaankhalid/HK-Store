@@ -23,6 +23,7 @@ namespace DbServer {
     SET,
     GET,
     DEL,
+    ALL,
     NEG
   };
 
@@ -71,5 +72,6 @@ namespace DbServer {
     void GetHandler(int connection, unsigned char* bytebuffer);
     void SetHandler(int connection, unsigned char* bytebuffer);
     void DelHandler(int connection, unsigned char* bytebuffer);
+    void AllHandler(int connection, unsigned char* bytebuffer);
   };
 };

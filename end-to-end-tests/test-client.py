@@ -53,6 +53,19 @@ class Client:
 
         print(f"Received {data!r}")
 
+    def get_all_keys_request(self):
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.connect((self.HOST, self.PORT))
+
+            request = b"ALL"
+
+            print(request)
+
+            s.sendall(request)
+            data = s.recv(1024)
+
+        print(f"Received {data!r}")
+
 def main():
     c = Client("127.0.0.1", 8000)
     c.set_request("owner", "hamdaan")
@@ -68,6 +81,6 @@ def main():
     c.get_request("friend")
     print("#"*10)
     c.get_request("O")
-    #c.del_request()
+    # c.get_all_keys_request()
 
 main()

@@ -45,3 +45,6 @@ DEL KEY_SIZE KEY...
 
 ## Example Client:
 - Based on the above operations a client can be written to facilitate communication between our Db and applications. A python client has been written in the **end-to-end-tests** dir.
+
+## TODO:
+- Add a command that can stream all key val pairs

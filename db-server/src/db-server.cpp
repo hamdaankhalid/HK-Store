@@ -9,6 +9,7 @@
 #include <string>
 #include <thread>
 #include <cstring>
+#include <sstream>
 
 #define SERVER_PORT 6969
 
@@ -66,7 +67,8 @@ const std::string DbServer::Db::noVal = "";
 const std::unordered_map<std::string, DbServer::Commands> DbServer::Db::cmdMap = {
   {"SET", Commands::SET},
   {"GET", Commands::GET},
-  {"DEL", Commands::DEL}
+  {"DEL", Commands::DEL},
+  {"ALL", Commands::ALL}
 };
 
 // blocking call used to accept incoming connections and handle them in their own thread
@@ -170,6 +172,9 @@ void DbServer::Db::HandleBody(int connection) {
       break;
     case Commands::DEL:
       DelHandler(connection, bytebuffer);
+      break;
+    case Commands::ALL:
+      AllHandler(connection, bytebuffer);
       break;
     default:
       logger.LogError("Command not found");
@@ -298,3 +303,16 @@ void DbServer::Db::DelHandler(int connection, unsigned char* bytebuffer) {
   Utils::WriteResponse(bytebuffer, successResp, connection, bufferSize);
 }
 
+// TODO: THIS IS WIP
+void DbServer::Db::AllHandler(int connection, unsigned char* bytebuffer) {
+  std::vector<std::string> keys = store->AllKeys();
+
+  std::stringstream keysAndSize;
+  for (auto key: keys) {
+    int keySize = key.size();
+    // convert keySize to bytes and add into string stream
+    keysAndSize <<   << ' ' << key << ' ';
+  }
+
+  Utils::WriteResponse(bytebuffer, keysAndSize.str(), connection, bufferSize);
+}
