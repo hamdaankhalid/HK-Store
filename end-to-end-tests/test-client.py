@@ -59,7 +59,7 @@ def main():
     print("#"*10)
     c.set_request("cat", "spark")
     print("#"*10)
-    c.set_request("friend", "tm")
+    c.set_request("O", "1")
     print("#"*10)
     c.get_request("owner")
     print("#"*10)
@@ -67,7 +67,7 @@ def main():
     print("#"*10)
     c.get_request("friend")
     print("#"*10)
-    c.get_request("dat")
+    c.get_request("O")
     #c.del_request()
 
 main()
