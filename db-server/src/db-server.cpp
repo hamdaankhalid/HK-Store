@@ -270,6 +270,9 @@ void DbServer::Db::GetHandler(int connection, unsigned char* bytebuffer) {
 
   // result will now contain metadata for valuse size and value as well
   std::vector<unsigned char> result = store->Get(keystr);
+  if (result.size() == 0) {
+    Utils::WriteResponse(bytebuffer, noVal, connection, bufferSize);
+  }
   Utils::WriteVecResponse(bytebuffer, result, connection, bufferSize);
 }
 

@@ -54,7 +54,7 @@ class Client:
         print(f"Received {data!r}")
 
 def main():
-    c = Client("127.0.0.1", 3000)
+    c = Client("127.0.0.1", 8000)
     c.set_request("owner", "hamdaan")
     print("#"*10)
     c.set_request("cat", "spark")
@@ -67,7 +67,7 @@ def main():
     print("#"*10)
     c.get_request("friend")
     print("#"*10)
-    c.get_request("pat")
+    c.get_request("dat")
     #c.del_request()
 
 main()

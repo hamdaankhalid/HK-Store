@@ -5,6 +5,6 @@
 
 int main(int argc, char* argv[]) {
   auto storage = std::shared_ptr<ConcurMap::MapStore>(new ConcurMap::ConcurrentHashmap);
-  DbServer::Db dbserver(storage, 3000, true);
+  DbServer::Db dbserver(storage, 8000, true);
   dbserver.Listen();
 }
