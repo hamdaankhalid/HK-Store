@@ -7,57 +7,29 @@ class Client:
         self.ENDIANESS = 'little'
 
     def set_request(self, key, val):
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            s.connect((self.HOST, self.PORT))
-            
-            key_size = (len(key)).to_bytes(4,self.ENDIANESS)
-            val_size = (len(val)).to_bytes(4,self.ENDIANESS)
-            key_val = f" {key} {val}"
-
-            request = b"SET " + key_size + b" " + val_size + str.encode(key_val)
-
-            print(request)
-
-            s.sendall(request)
-            data = s.recv(1024)
-
-        print(f"Received {data!r}")
+        key_size = (len(key)).to_bytes(4,self.ENDIANESS)
+        val_size = (len(val)).to_bytes(4,self.ENDIANESS)
+        key_val = f" {key} {val}"
+        request = b"SET " + key_size + b" " + val_size + str.encode(key_val)
+        self._make_request(request)
 
     def get_request(self, key):
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            s.connect((self.HOST, self.PORT))
-            
-            key_size = (len(key)).to_bytes(4,self.ENDIANESS)
-
-            request = b"GET " + key_size + b" " + str.encode(key)
-
-            print(request)
-
-            s.sendall(request)
-            data = s.recv(1024)
-
-        print(f"Received {data!r}")
+        key_size = (len(key)).to_bytes(4,self.ENDIANESS)
+        request = b"GET " + key_size + b" " + str.encode(key)
+        self._make_request(request)
 
     def del_request(self, key):
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            s.connect((self.HOST, self.PORT))
-            
-            key_size = (len(key)).to_bytes(4,self.ENDIANESS)
-
-            request = b"DEL " + key_size + b" " + str.encode(key)
-
-            print(request)
-
-            s.sendall(request)
-            data = s.recv(1024)
-
-        print(f"Received {data!r}")
+        key_size = (len(key)).to_bytes(4,self.ENDIANESS)
+        request = b"DEL " + key_size + b" " + str.encode(key)
+        self._make_request(request)
 
     def get_all_keys_request(self):
+        self._make_request(b"ALL")
+
+
+    def _make_request(self, request):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.connect((self.HOST, self.PORT))
-
-            request = b"ALL"
 
             print(request)
 
@@ -65,6 +37,7 @@ class Client:
             data = s.recv(1024)
 
         print(f"Received {data!r}")
+
 
 def main():
     c = Client("127.0.0.1", 8000)
