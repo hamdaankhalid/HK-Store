@@ -303,16 +303,40 @@ void DbServer::Db::DelHandler(int connection, unsigned char* bytebuffer) {
   Utils::WriteResponse(bytebuffer, successResp, connection, bufferSize);
 }
 
-// TODO: THIS IS WIP
-void DbServer::Db::AllHandler(int connection, unsigned char* bytebuffer) {
-  std::vector<std::string> keys = store->AllKeys();
 
-  std::stringstream keysAndSize;
+void DbServer::Db::AllHandler(int connection, unsigned char* bytebuffer) {
+  // the first 4 bytes are reserved for total data packet size;
+  std::vector<unsigned char> result(5, 0);
+  
+  std::vector<std::string> keys = store->AllKeys();
+  
+  int totalDataSize = 0;
+
   for (auto key: keys) {
     int keySize = key.size();
-    // convert keySize to bytes and add into string stream
-    keysAndSize <<   << ' ' << key << ' ';
+    for (int i = 0; i < 4; i++)
+      result.push_back(keySize >> (i * 8)); 
+    result.push_back(' ');
+    for (auto c: key) {
+      result.push_back(c);
+    }
+    result.push_back(' ');
+    totalDataSize += 4 + 1 + keySize; // keysize metadata is 4 bytes , 1 is separator, then keySize
   }
 
-  Utils::WriteResponse(bytebuffer, keysAndSize.str(), connection, bufferSize);
+  for (int i = 0; i < 4; i++)
+    result[i] = totalDataSize >> (i * 8); 
+  result[4] = ' ';
+
+  logger.LogInfo("Total Data PacketSize is " + std::to_string(totalDataSize));
+  Utils::WriteVecResponse(bytebuffer, result, connection, bufferSize);
 }
+
+lat -> 3 + 5
+pat -> 3 + 5
+owner -> 5 + 5 : 26
+cat -> 3 + 5: 32
+friend-> 6 + 5: 43
+X -> 1 + 5: 49
+O -> 1 + 5: 55
+D -> 1 + 5: 61

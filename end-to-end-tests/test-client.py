@@ -81,6 +81,6 @@ def main():
     c.get_request("friend")
     print("#"*10)
     c.get_request("O")
-    # c.get_all_keys_request()
+    c.get_all_keys_request()
 
 main()
