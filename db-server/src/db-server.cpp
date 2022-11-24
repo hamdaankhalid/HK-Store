@@ -331,12 +331,3 @@ void DbServer::Db::AllHandler(int connection, unsigned char* bytebuffer) {
   logger.LogInfo("Total Data PacketSize is " + std::to_string(totalDataSize));
   Utils::WriteVecResponse(bytebuffer, result, connection, bufferSize);
 }
-
-lat -> 3 + 5
-pat -> 3 + 5
-owner -> 5 + 5 : 26
-cat -> 3 + 5: 32
-friend-> 6 + 5: 43
-X -> 1 + 5: 49
-O -> 1 + 5: 55
-D -> 1 + 5: 61
